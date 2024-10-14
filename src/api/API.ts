@@ -1,0 +1,62 @@
+import axios from "axios";
+
+const url: string = `http://localhost:2244`;
+
+export const createAccount = (data: any) => {
+  try {
+    return fetch(`${url}/api/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+
+      body: data,
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const createUserAccount = (data: any) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    return axios
+      .post(`${url}/api/register`, data, config)
+
+      .then((res) => {
+        return res?.data;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const loginAccount = (data: any) => {
+  try {
+    return fetch(`${url}/api/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
