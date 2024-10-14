@@ -60,3 +60,43 @@ export const loginAccount = (data: any) => {
     console.log(error);
   }
 };
+
+export const stageOneEndPoint = (id: string, data: any) => {
+  try {
+    // /stage-one/:userID
+    return fetch(`${url}/api/stage-one/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const allAccount = () => {
+  try {
+    return fetch(`${url}/api/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        return res.data;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -3,6 +3,7 @@ import logo from "../../assets/web_asset/LogoNextGen.png";
 import { MdArrowForward } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { loginAccount } from "@/api/API";
+import { FaSpinner } from "react-icons/fa";
 
 const LoginScreen = () => {
   const navigate = useNavigate();
@@ -10,19 +11,24 @@ const LoginScreen = () => {
   const [email, setEmail] = useState<string>("");
 
   const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const createUser = (e: any) => {
+  const LoginUserAccount = (e: any) => {
     e.preventDefault();
+    setLoading(true);
+    loginAccount({ email, password })
+      ?.then((res) => {
+        if (res.status === 201) {
+          localStorage.setItem("userData", JSON.stringify(res.data));
 
-    loginAccount({ email, password })?.then((res) => {
-      if (res.status === 201) {
-        localStorage.setItem("userData", JSON.stringify(res.data));
-
-        navigate("/auth/participate");
-      } else {
-        alert("something is wrong");
-      }
-    });
+          navigate("/auth/participate");
+        } else {
+          alert("something is wrong");
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -50,7 +56,7 @@ const LoginScreen = () => {
               </p>
             </div>
             <form
-              onSubmit={createUser}
+              onSubmit={LoginUserAccount}
               className="col-span-1 md:col-span-2 min-h-[300px] "
             >
               <div className="flex flex-col sm:flex-row gap-2 w-full">
@@ -82,14 +88,22 @@ const LoginScreen = () => {
               <div className="flex">
                 <div className="flex items-center mt-10 border justify-center h-[55px] w-[200px] text-[20px] hover:bg-black hover:text-white transition-all duration-300 cursor-pointer">
                   <div className="h-full border-r flex justify-center items-center">
-                    <MdArrowForward className="mr-4" />
+                    {loading ? (
+                      <FaSpinner className="animate-spin mr-4" />
+                    ) : (
+                      <MdArrowForward className="mr-4" />
+                    )}
                   </div>
                   <button
                     className="uppercase font-semibold ml-5"
                     // onClick={createUser}
                     type="submit"
                   >
-                    Log In
+                    {loading ? (
+                      <div className="text-[15px]">Processing</div>
+                    ) : (
+                      "Log In"
+                    )}
                   </button>
                 </div>
               </div>

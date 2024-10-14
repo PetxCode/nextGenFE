@@ -4,22 +4,30 @@ import moment from "moment";
 import useSocket from "@/hooks/useSocket";
 import { ContextProvider } from "@/global/GlobalProvider";
 import { Link } from "react-router-dom";
+import { allAccount, stageOneEndPoint } from "@/api/API";
 
 export const MainQuestion = () => {
   const { user }: any = useContext(ContextProvider);
   const socket = useSocket();
   const [questionNumber, setQuestionNumber] = useState<number>(0);
   const [presentStage, setPresentStage] = useState<string>("");
+  const [presentStageData, setPresentStageData] = useState<string>("");
 
   const [myPick, setMyPick] = useState<any | null>(null);
+  const [myPickOption, setMyPickOption] = useState<any | null>(null);
   const [chartArray, setChartArray] = useState<[] | null>([]);
   const [viewChartArray, setViewChartArray] = useState<[] | null>([]);
   const [timing, setTiming] = useState<number>(20);
 
+  const [allUsers, setAllUsers] = useState<Array<{}>>([]);
+
   useEffect(() => {
+    allAccount()?.then((res) => {
+      setAllUsers(res);
+    });
     const timerId = setTimeout(() => {
       if (timing > 0) {
-        // setTiming(timing - 1);
+        setTiming(timing - 1);
       }
     }, 1000);
     return () => clearTimeout(timerId);
@@ -27,8 +35,14 @@ export const MainQuestion = () => {
 
   useEffect(() => {
     socket?.emit("questionNumber", questionNumber);
-    socket?.on("questionNumber", (read) => {
-      setQuestionNumber(read);
+    socket?.on("questionNumber", ({ question, reset }) => {
+      setQuestionNumber(question);
+      setMyPickOption(reset);
+    });
+
+    socket?.emit("test", null);
+    socket?.on("test", (res) => {
+      // setMyPick(res);
     });
 
     socket?.emit("presentStage", presentStage);
@@ -45,14 +59,18 @@ export const MainQuestion = () => {
     presentStage,
     questionNumber,
     myPick,
+    // myPickOption,
     // chartArray,
     // viewChartArray,
   ]);
 
   const myData: any = { ...data };
 
+  // console.log("reading Option: ", myPickOption);
+
   return (
     <div className="relative flex justify-center mt-10 items-center ">
+      {myPickOption && "Greated"}
       <div className="flex flex-col lg:flex-row gap-4 justify-between min-h-[80] w-[80%]">
         <div className="min-w-[200px] rounded-md gap-2 lg:h-[200px] grid grid-cols-2 lg:grid-cols-1 items-center justify-center flex-wrap">
           {Object.keys(data).map((el: string, i: number) => (
@@ -62,7 +80,19 @@ export const MainQuestion = () => {
                 presentStage === el ? "bg-blue-950 text-white" : "bg-slate-50"
               } rounded-md my-2 `}
               onClick={() => {
-                setPresentStage(el);
+                user.status === "admin" && setPresentStage(el);
+                user.status === "admin" &&
+                  setPresentStageData(
+                    el === "stage1"
+                      ? "stage1Result"
+                      : el === "stage2"
+                      ? "stage2Result"
+                      : el === "stage3"
+                      ? "stage3Result"
+                      : el === "stage4"
+                      ? "stage4Result"
+                      : ""
+                  );
               }}
             >
               {el}
@@ -72,15 +102,17 @@ export const MainQuestion = () => {
 
         <div className="flex-1  rounded-md  grid grid-cols-1 md:grid-cols-3 gap-3 ">
           <div className="col-span-1 md:col-span-2 border p-4">
-            <h1
-              className="text-center my-4 mb-10 font-semibold text-[20px] px-10 py-3 border rounded-md bg-neutral-900 text-white cursor-pointer"
-              onClick={() => {
-                setQuestionNumber((el) => el + 1);
-                setTiming(20);
-              }}
-            >
-              Next Question
-            </h1>
+            {user?.status === "admin" && (
+              <h1
+                className="text-center my-4 mb-10 font-semibold text-[20px] px-10 py-3 border rounded-md bg-neutral-900 text-white cursor-pointer"
+                onClick={() => {
+                  setQuestionNumber((el) => el + 1);
+                  setTiming(20);
+                }}
+              >
+                Next Question
+              </h1>
+            )}
             <p className="text-center">{myData[presentStage]?.id}</p>
             <h1 className="text-center mb-4 font-semibold text-[20px]">
               Question : {myData[presentStage]?.data[questionNumber]?.id}
@@ -117,30 +149,13 @@ export const MainQuestion = () => {
                     }
                     `}
                       onClick={() => {
-                        setMyPick({
-                          ...el,
-                          createdAt: moment(new Date().getTime()).format("LTS"),
-                          pickAt: `${20 - timing} secs`,
-                          point: el.correct
-                            ? 20 - timing <= 8
-                              ? 10
-                              : 20 - timing >= 9 && 20 - timing <= 12
-                              ? 6
-                              : 20 - timing >= 13 && 20 - timing <= 15
-                              ? 3
-                              : 1
-                            : 0,
-                        });
-
-                        console.log(myPick);
-                        let x: any = [
-                          ...chartArray!,
-                          {
+                        if (user.status === "student") {
+                          setMyPick({
                             ...el,
-                            name: `${user?.firstName} ${user?.lastName}`,
                             createdAt: moment(new Date().getTime()).format(
                               "LTS"
                             ),
+
                             pickAt: `${20 - timing} secs`,
                             point: el.correct
                               ? 20 - timing <= 8
@@ -151,9 +166,54 @@ export const MainQuestion = () => {
                                 ? 3
                                 : 1
                               : 0,
-                          },
-                        ];
-                        setChartArray(x!);
+                          });
+
+                          stageOneEndPoint(user?._id, {
+                            questionID:
+                              myData[presentStage]?.data[questionNumber].id,
+                            correct: el.correct,
+                            option: el.option,
+                            name: `${user?.firstName} ${user?.lastName}`,
+                            school: user?.schoolName,
+                            stage: myData[presentStage]?.id,
+                            time: moment(new Date().getTime()).format("LTS"),
+                            pickedAt: `${20 - timing} secs`,
+                            point: el.correct
+                              ? 20 - timing <= 8
+                                ? 10
+                                : 20 - timing >= 9 && 20 - timing <= 12
+                                ? 6
+                                : 20 - timing >= 13 && 20 - timing <= 15
+                                ? 3
+                                : 1
+                              : 0,
+                          })?.then((res) => {
+                            console.log("result: ", res);
+                          });
+
+                          console.log(myPick);
+                          let x: any = [
+                            ...chartArray!,
+                            {
+                              ...el,
+                              name: `${user?.firstName} ${user?.lastName}`,
+                              createdAt: moment(new Date().getTime()).format(
+                                "LTS"
+                              ),
+                              pickAt: `${20 - timing} secs`,
+                              point: el.correct
+                                ? 20 - timing <= 8
+                                  ? 10
+                                  : 20 - timing >= 9 && 20 - timing <= 12
+                                  ? 6
+                                  : 20 - timing >= 13 && 20 - timing <= 15
+                                  ? 3
+                                  : 1
+                                : 0,
+                            },
+                          ];
+                          setChartArray(x!);
+                        }
                       }}
                     >
                       <div className="flex flex-col items-center p-2">
@@ -206,29 +266,35 @@ export const MainQuestion = () => {
               </div>
             </div>
             data:
-            <div className="p-3 flex gap-2 flex-wrap  max-w-[450px] max-h-[500px] ">
-              {viewChartArray?.map((el: any, i: number) => (
+            <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
+              {allUsers?.map((el: any) => (
                 <div
-                  key={i}
-                  className={`border rounded-md w-[200px] h-[120px] p-2 text-[12px] flex flex-col justify-between ${
-                    el.correct ? "bg-green-50" : "bg-red-50"
+                  className={`relative border rounded-md w-[110px] min-h-[60px] py-1 px-2 text-[12px] flex flex-col justify-between ${
+                    el?.stage1Result[el?.stage1Result?.length - 1]?.correct
+                      ? "bg-green-50"
+                      : "bg-red-50"
                   }`}
                 >
+                  <p className="font-medium">{el?.stage1Result[1]?.name}</p>
                   <p>
-                    Name: <strong>{el.name}</strong>
+                    Points:{" "}
+                    {el?.stage1Result[el?.stage1Result?.length - 1]?.point}
                   </p>
                   <p>
-                    Option:<strong>{el.id}</strong>
+                    {" "}
+                    {el?.stage1Result[el?.stage1Result?.length - 1]?.pickedAt}
                   </p>
                   <p>
-                    Point: <strong>{el.point}</strong>
+                    {el?.stage1Result[el?.stage1Result?.length - 1]?.option}
                   </p>
-                  <p>
-                    Time: <strong>{el.createdAt}</strong>
-                  </p>
-                  <p>
-                    School: <strong>School's Name</strong>
-                  </p>
+
+                  <div className="absolute -bottom-2 -right-2 w-12 h-12 rounded-full border overflow-hidden">
+                    <img
+                      alt="image"
+                      src={el?.avatar}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
                 </div>
               ))}
             </div>

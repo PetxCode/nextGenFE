@@ -1,8 +1,14 @@
 import { useState } from "react";
 import logo from "../../assets/web_asset/LogoNextGen.png";
-import { MdArrowForward, MdPerson } from "react-icons/md";
+import {
+  MdArrowForward,
+  MdPerson,
+  MdVisibility,
+  MdVisibilityOff,
+} from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserAccount } from "@/api/API";
+import { FaSpinner } from "react-icons/fa";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -17,6 +23,11 @@ const Register = () => {
 
   const [avatar, setAvatar] = useState<string>("");
   const [myImage, setMyImage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [visibleConfirm, setVisibleConfirm] = useState<boolean>(false);
 
   const handleImage = (e: any) => {
     let file = e.target.files[0];
@@ -26,6 +37,7 @@ const Register = () => {
 
   const createUser = (e: any) => {
     e.preventDefault();
+    setLoading(true);
     const formData = new FormData();
     formData.append("avatar", avatar);
     formData.append("firstName", firstName);
@@ -36,14 +48,25 @@ const Register = () => {
     formData.append("presentClass", presentClass);
     formData.append("password", password);
 
-    createUserAccount(formData)?.then((res) => {
-      console.log(res);
-      if (res.status === 201) {
-        navigate("/auth/login");
-      } else {
-        alert("something is wrong");
-      }
-    });
+    if (password !== confirmPassword) {
+      setErrorMessage("Please enter same password with Confirm Password");
+      setLoading(false);
+    } else if (avatar === "") {
+      setErrorMessage("Please input in your avatar");
+      setLoading(false);
+    } else {
+      createUserAccount(formData)
+        ?.then((res) => {
+          if (res.status === 201) {
+            navigate("/auth/login");
+          } else {
+            alert("something is wrong");
+          }
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
 
   return (
@@ -97,7 +120,7 @@ const Register = () => {
                 </div>
                 {myImage && (
                   <div className="h-[55px] w-[55px] border-y border-r">
-                    <img src={myImage} className="h-full" />
+                    <img src={myImage} className="h-full object-cover" />
                   </div>
                 )}
               </div>
@@ -152,20 +175,65 @@ const Register = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row  gap-2 w-full mt-2">
-                <input
-                  className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px]  flex-1 pl-2 border border-black text-black outline-none"
-                  placeholder="Password"
-                  type="text"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <input
-                  className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px]  flex-1 pl-2 border border-black text-black outline-none"
-                  placeholder="Confirm Password"
-                  type=""
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
+                {visible ? (
+                  <div className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px] flex justify-between items-center flex-1 pl-2 border border-black text-black outline-none">
+                    <input
+                      className="h-[40px] w-[80%] md:py-0 md:min-h-[50px] lg:min-h-[68px] flex-1 border-black text-black outline-none"
+                      placeholder="Password"
+                      type="text"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <MdVisibilityOff
+                      className="mx-4 text-[20px] cursor-pointer"
+                      onClick={() => setVisible(!visible)}
+                    />
+                  </div>
+                ) : (
+                  <div className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px] flex justify-between items-center flex-1 pl-2 border border-black text-black outline-none">
+                    <input
+                      className="h-[40px] w-[80%] md:py-0 md:min-h-[50px] lg:min-h-[68px] flex-1 border-black text-black outline-none"
+                      placeholder="Password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <MdVisibility
+                      className="mx-4 text-[20px] cursor-pointer"
+                      onClick={() => setVisible(!visible)}
+                    />
+                  </div>
+                )}
+
+                {visibleConfirm ? (
+                  <div className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px] flex justify-between items-center flex-1 pl-2 border border-black text-black outline-none">
+                    <input
+                      className="h-[40px] w-[80%] md:py-0 md:min-h-[50px] lg:min-h-[68px] flex-1 border-black text-black outline-none"
+                      placeholder="Confirm Password"
+                      type="text"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    <MdVisibilityOff
+                      className="mx-4 text-[20px] cursor-pointer"
+                      onClick={() => setVisibleConfirm(!visibleConfirm)}
+                    />
+                  </div>
+                ) : (
+                  <div className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px] flex justify-between items-center flex-1 pl-2 border border-black text-black outline-none">
+                    <input
+                      className="h-[40px] w-[80%] md:py-0 md:min-h-[50px] lg:min-h-[68px] flex-1 border-black text-black outline-none"
+                      placeholder="Confirm Password"
+                      type="password"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    <MdVisibility
+                      className="mx-4 text-[20px] cursor-pointer"
+                      onClick={() => setVisibleConfirm(!visibleConfirm)}
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="mt-5" />
@@ -180,17 +248,28 @@ const Register = () => {
               <div className="flex">
                 <div className="flex items-center mt-10 border justify-center h-[55px] w-[200px] text-[20px] hover:bg-black hover:text-white transition-all duration-300 cursor-pointer">
                   <div className="h-full border-r flex justify-center items-center">
-                    <MdArrowForward className="mr-4" />
+                    {loading ? (
+                      <FaSpinner className="animate-spin mr-4" />
+                    ) : (
+                      <MdArrowForward className="mr-4" />
+                    )}
                   </div>
                   <button
                     className="uppercase font-semibold ml-5"
                     // onClick={createUser}
                     type="submit"
                   >
-                    Register
+                    {loading ? (
+                      <div className="text-[15px]">Processing</div>
+                    ) : (
+                      "Register"
+                    )}
                   </button>
                 </div>
               </div>
+              {errorMessage && (
+                <div className="text-[12px] text-red-500">{errorMessage}</div>
+              )}
 
               <div className="flex mt-5 gap-8">
                 <div className="form-control">
