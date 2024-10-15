@@ -3,7 +3,7 @@ import Layout from "@/layout/Layout";
 import LoginScreen from "@/pages/auth/Login";
 import Register from "@/pages/auth/Register";
 import LandingPage from "@/pages/design/LandingPage";
-import Chart from "@/pages/screen/Chart";
+
 import { MainQuestion } from "@/pages/screen/MainQuestion";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -41,11 +41,6 @@ export const router = createBrowserRouter([
         index: true,
         path: "participate",
         element: <MainQuestion />,
-      },
-      {
-        index: true,
-        path: "Chart",
-        element: <Chart />,
       },
     ],
   },

@@ -3,7 +3,7 @@ import data from "./questionData/data.json";
 import moment from "moment";
 import useSocket from "@/hooks/useSocket";
 import { ContextProvider } from "@/global/GlobalProvider";
-import { Link } from "react-router-dom";
+
 import {
   allAccount,
   stageFourEndPoint,
@@ -67,6 +67,7 @@ export const MainQuestion = () => {
       return new Date(`${b.time}`).getTime() - new Date(`${a.time}`).getTime();
     });
 
+  console.log(presentStageData);
   console.log(readSort);
   return (
     <div className="relative flex justify-center mt-10 items-center ">

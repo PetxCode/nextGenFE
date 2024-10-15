@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { AiFillTikTok } from "react-icons/ai";
 import {
   FaFacebookSquare,
