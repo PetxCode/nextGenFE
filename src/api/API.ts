@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const url: string = `http://localhost:2244`;
+// const url: string = `http://localhost:2244`;
+const url: string = `https://nextgenbe.onrender.com`;
 
 export const createAccount = (data: any) => {
   try {
