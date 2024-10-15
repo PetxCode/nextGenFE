@@ -61,9 +61,27 @@ export const loginAccount = (data: any) => {
   }
 };
 
+export const allAccount = () => {
+  try {
+    return fetch(`${url}/api/users`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        return res.data;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const stageOneEndPoint = (id: string, data: any) => {
   try {
-    // /stage-one/:userID
     return fetch(`${url}/api/stage-one/${id}`, {
       method: "PATCH",
       headers: {
@@ -82,19 +100,63 @@ export const stageOneEndPoint = (id: string, data: any) => {
   }
 };
 
-export const allAccount = () => {
+export const stageTwoEndPoint = (id: string, data: any) => {
   try {
-    return fetch(`${url}/api/users`, {
-      method: "GET",
+    // /stage-one/:userID
+    return fetch(`${url}/api/stage-2/${id}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(data),
     })
       .then((res) => {
         return res.json();
       })
       .then((res) => {
-        return res.data;
+        return res;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const stageThreeEndPoint = (id: string, data: any) => {
+  try {
+    // /stage-one/:userID
+    return fetch(`${url}/api/stage-3/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        return res;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const stageFourEndPoint = (id: string, data: any) => {
+  try {
+    // /stage-one/:userID
+    return fetch(`${url}/api/stage-4/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        return res;
       });
   } catch (error) {
     console.log(error);
