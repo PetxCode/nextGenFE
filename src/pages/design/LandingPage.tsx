@@ -115,23 +115,23 @@ const LandingPage = () => {
 
       <div className="flex items-center flex-col ">
         <div className="w-[80%] ">
-          <div className="mt-5 mb-10 flex gap-5 items-center">
+          <div className="mt-5 mb-10 grid grid-cols-2 md:grid-cols-4 gap-2 items-center">
             {sponsorLogo?.map((el) => (
               <a
                 key={el.id}
-                className="flex justify-center items-center w-[200px] h-[80px] rounded-md border cursor-pointer *:hover:opacity:100 *:hover:scale-[1.05] transition-all duration-300"
+                className="flex justify-center items-center  h-[80px] rounded-md border cursor-pointer *:hover:opacity:100 *:hover:scale-[1.05] transition-all duration-300"
                 href={`${el.url}`}
                 target="_blank"
               >
                 <img
                   alt={el.title}
                   src={el.logo}
-                  className="h-[40px] object-cover transition-all duration-300 opacity-70 "
+                  className="h-[40px] object-contain transition-all duration-300 opacity-70 p-1"
                 />
               </a>
             ))}
           </div>
-          <p className=" font-semibold text-[30px] mt-5 uppercase">
+          <p className=" font-semibold leading-tight text-[25px] md:text-[30px] mt-5 uppercase">
             Participating Schools/Students
           </p>
         </div>
@@ -147,7 +147,7 @@ const LandingPage = () => {
         </div>
 
         <div className="flex w-[80%] flex-col">
-          <p className="text-[70px] leading-tight">
+          <p className="text-[40px] md:text-[70px] leading-tight">
             Benefits of STEM <br />
             Education
           </p>
@@ -206,14 +206,15 @@ const LandingPage = () => {
         </div>
       </div>
 
-      <div className="mt-20 bg-black min-h-[500px] pb-5 text-white flex flex-col items-center">
+      <div className="mt-20 bg-black min-h-[200px] pb-20 text-white flex flex-col items-center">
         <div className="w-[80%]">
-          <p className="mt-20 text-[70px] leading-tight text-center">
-            Importance for STEM <br />
+          <p className="mt-20 text-[40px] md:text-[70px] leading-tight text-center">
+            Importance for <br className="block md:hidden" />
+            STEM <br className="hidden md:block" />
             Education
           </p>
 
-          <p className="mt-10 text-[20px] text-center leading-tight">
+          <p className="mt-10 text-[15px] md:text-[20px] text-center leading-tight">
             STEM Education stimulates critical thinking by engaging students in
             actively analyzing, evaluating, and applying knowledge to solve
             problems, This approach prepares students for future challenges
