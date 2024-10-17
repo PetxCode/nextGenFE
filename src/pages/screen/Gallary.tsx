@@ -5,13 +5,10 @@ import { useState } from "react";
 import moment from "moment";
 
 const Gallary = () => {
-  const { data, isLoading }: any = useGallary();
-  const arr = Array.from({ length: 10 });
+  const { data }: any = useGallary();
 
   const [hover, setHover] = useState<boolean>(false);
   const [view, setView] = useState<string>("");
-
-  console.log(data)
 
   return (
     <div className="pt-[40px] p-4">

@@ -9,7 +9,7 @@ import { uploadMultiple, uploadSingle } from "@/api/API";
 import { mutate } from "swr";
 
 const UploadGallary = () => {
-  const { data, isLoading }: any = useGallary();
+  const { data }: any = useGallary();
 
   const [hover, setHover] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
