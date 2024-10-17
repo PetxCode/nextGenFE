@@ -2,6 +2,7 @@ import { MdMenu } from "react-icons/md";
 import logo from "../assets/web_asset/LogoNextGen.png";
 import logoW from "../assets/web_asset/LogoNextGenW.png";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [toggle, setToggle] = useState<boolean>(false);
@@ -37,15 +38,15 @@ const Header = () => {
 
   return (
     <div
-      className={`fixed shadow-sm border-b z-30 flex justify-center top-0 left-0 w-full py-4 transition-transform duration-300 ${
-        showHeader ? "translate-y-0 text-white" : "-translate-y-full  "
+      className={`fixed shadow-sm border-b z-30 flex justify-center top-0 left-0 w-full py-4 transition-transform duration-300 text-black ${
+        showHeader ? "translate-y-0 " : "-translate-y-full  "
       } ${
         isScrolled
           ? "bg-white backdrop-blur-sm text-black"
-          : "bg-transparent text-white"
+          : "bg-transparent text-neutral-900 "
       }  transition-all duration-300`}
     >
-      <div className="flex justify-between items-center w-[80%] relative">
+      <div className="flex  gap-5 items-center w-[80%] relative">
         {isScrolled ? (
           <img alt="Logo" src={logo} className="h-14 object-contain" />
         ) : (
@@ -53,12 +54,17 @@ const Header = () => {
         )}
 
         <div className="hidden md:flex items-center gap-5 ">
-          <button className="bg-white text-neutral-900 px-12 font-semibold py-3 rounded-md border">
-            Chart
-          </button>
-          <button className="border bg-white text-neutral-900 px-12 font-semibold py-3 rounded-md">
+          <Link
+            to="/auth/gallary"
+            className={`${
+              isScrolled ? "text-neutral-950" : "text-white"
+            } font-semibold py-3rounded-md uppercase text-[20px]`}
+          >
+            view Gallary
+          </Link>
+          {/* <button className="border bg-white text-neutral-900 px-12 font-semibold py-3 rounded-md">
             Participate
-          </button>
+          </button> */}
         </div>
         <MdMenu
           className={`block md:hidden text-[50px] cursor-pointer ${
@@ -88,9 +94,9 @@ const Header = () => {
                 }
               }}
             >
-              Chart
+              Gallary
             </button>
-            <button
+            {/* <button
               className="transition-all duration-300 flex justify-normal p-4 hover:bg-neutral-900 hover:text-white font-semibold text-[15px]"
               onClick={() => {
                 if (!document.startViewTransition) {
@@ -103,7 +109,7 @@ const Header = () => {
               }}
             >
               Participate
-            </button>
+            </button> */}
           </div>
         )}
       </div>

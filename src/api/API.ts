@@ -163,3 +163,57 @@ export const stageFourEndPoint = (id: string, data: any) => {
     console.log(error);
   }
 };
+
+export const viewAllGallary = () => {
+  try {
+    return fetch(`${url}/api/view-gallary`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res?.json();
+      })
+      .then((res) => {
+        return res?.data;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+//
+export const uploadSingle = (data: any) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    return axios
+      .post(`${url}/api/single-upload`, data, config)
+
+      .then((res) => {
+        return res?.data;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const uploadMultiple = (data: any) => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+    return axios
+      .post(`${url}/api/multi-upload`, data, config)
+
+      .then((res) => {
+        return res?.data;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
