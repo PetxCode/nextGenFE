@@ -82,6 +82,19 @@ export const allAccount = () => {
   }
 };
 
+export const deleteUserAccount = (userID: any) => {
+  try {
+    return axios
+      .delete(`${url}/api/delete/${userID}`)
+
+      .then((res) => {
+        return res?.data;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const stageOneEndPoint = (id: string, data: any) => {
   try {
     return fetch(`${url}/api/stage-one/${id}`, {
@@ -201,6 +214,7 @@ export const uploadSingle = (data: any) => {
     console.log(error);
   }
 };
+
 export const uploadMultiple = (data: any) => {
   try {
     const config = {

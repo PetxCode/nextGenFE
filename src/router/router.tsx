@@ -7,6 +7,7 @@ import Gallary from "@/pages/screen/Gallary";
 
 import { MainQuestion } from "@/pages/screen/MainQuestion";
 import UploadGallary from "@/pages/screen/UploadImages";
+import ViewUsers from "@/pages/screen/ViewAllUserScreen";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -53,6 +54,11 @@ export const router = createBrowserRouter([
         index: true,
         path: "upload-gallary",
         element: <UploadGallary />,
+      },
+      {
+        index: true,
+        path: "users",
+        element: <ViewUsers />,
       },
     ],
   },

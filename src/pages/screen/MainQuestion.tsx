@@ -79,23 +79,262 @@ export const MainQuestion = () => {
               } rounded-md my-2 `}
               onClick={() => {
                 user.status === "admin" && setPresentStage(el);
-                // user.status === "admin" &&
-                // setPresentStageData(
-                //   el === "stage1"
-                //     ? "stage1Result"
-                //     : el === "stage2"
-                //     ? "stage2Result"
-                //     : el === "stage3"
-                //     ? "stage3Result"
-                //     : el === "stage4"
-                //     ? "stage4Result"
-                //     : ""
-                // );
               }}
             >
               {el}
             </button>
           ))}
+
+          {!user && (
+            <div>
+              <div>
+                <p>Students Result Outcomes for </p>
+                <h1 className=" mb-4 font-semibold text-[12px] flex gap-3">
+                  <p className="">{myData[presentStage]?.id}</p>
+                  Question
+                  <span className="ml-1">
+                    {myData[presentStage]?.data[questionNumber]?.id}
+                  </span>
+                </h1>
+              </div>
+
+              {myData[presentStage]?.id === "stage1" ? (
+                <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
+                  {allUsers?.map((el: any) => (
+                    <div
+                      className={`relative border rounded-md w-[150px] min-h-[60px] py-1 px-2 text-[12px] flex flex-col justify-between ${
+                        el?.stage1Result[el?.stage1Result?.length - 1]?.correct
+                          ? "bg-green-50"
+                          : "bg-red-50"
+                      }`}
+                    >
+                      <p className="font-medium">{el?.stage1Result[1]?.name}</p>
+                      <p>
+                        Points:{" "}
+                        <span className="font-medium text-[14px]">
+                          {
+                            el?.stage1Result[el?.stage1Result?.length - 1]
+                              ?.point
+                          }
+                        </span>
+                      </p>
+                      <p>
+                        Picked In
+                        <span className="font-medium text-[12px] ml-1">
+                          {
+                            el?.stage1Result[el?.stage1Result?.length - 1]
+                              ?.pickedAt
+                          }
+                        </span>
+                      </p>
+                      <p>
+                        Picked:
+                        <span className="font-medium text-[12px] ml-1">
+                          {
+                            el?.stage1Result[el?.stage1Result?.length - 1]
+                              ?.option
+                          }
+                        </span>
+                      </p>
+                      <p>
+                        Option:
+                        <span className="font-medium text-[12px] ml-1">
+                          {
+                            el?.stage1Result[el?.stage1Result?.length - 1]
+                              ?.optionPicked
+                          }
+                        </span>
+                      </p>
+
+                      <div className="absolute -bottom-2 -right-2 w-12 h-12 rounded-full border overflow-hidden">
+                        <img
+                          alt="image"
+                          src={el?.avatar}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : myData[presentStage]?.id === "stage2" ? (
+                <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
+                  {allUsers?.map((el: any) => (
+                    <div
+                      className={`relative border rounded-md w-[150px] min-h-[60px] py-1 px-2 text-[12px] flex flex-col justify-between ${
+                        el?.stage2Result[el?.stage2Result?.length - 1]?.correct
+                          ? "bg-green-50"
+                          : "bg-red-50"
+                      }`}
+                    >
+                      <p className="font-medium">{el?.stage2Result[1]?.name}</p>
+                      <p>
+                        Points:{" "}
+                        <span className="font-medium text-[14px]">
+                          {
+                            el?.stage2Result[el?.stage2Result?.length - 1]
+                              ?.point
+                          }
+                        </span>
+                      </p>
+                      <p>
+                        Picked In
+                        <span className="font-medium text-[12px] ml-1">
+                          {
+                            el?.stage2Result[el?.stage2Result?.length - 1]
+                              ?.pickedAt
+                          }
+                        </span>
+                      </p>
+                      <p>
+                        Picked:
+                        <span className="font-medium text-[12px] ml-1">
+                          {
+                            el?.stage2Result[el?.stage2Result?.length - 1]
+                              ?.option
+                          }
+                        </span>
+                      </p>
+                      <p>
+                        Option:
+                        <span className="font-medium text-[12px] ml-1">
+                          {
+                            el?.stage2Result[el?.stage2Result?.length - 1]
+                              ?.optionPicked
+                          }
+                        </span>
+                      </p>
+
+                      <div className="absolute -bottom-2 -right-2 w-12 h-12 rounded-full border overflow-hidden">
+                        <img
+                          alt="image"
+                          src={el?.avatar}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : myData[presentStage]?.id === "stage3" ? (
+                <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
+                  {allUsers?.map((el: any) => (
+                    <div
+                      className={`relative border rounded-md w-[150px] min-h-[60px] py-1 px-2 text-[12px] flex flex-col justify-between ${
+                        el?.stage3Result[el?.stage3Result?.length - 1]?.correct
+                          ? "bg-green-50"
+                          : "bg-red-50"
+                      }`}
+                    >
+                      <p className="font-medium">{el?.stage3Result[1]?.name}</p>
+                      <p>
+                        Points:{" "}
+                        <span className="font-medium text-[14px]">
+                          {
+                            el?.stage3Result[el?.stage3Result?.length - 1]
+                              ?.point
+                          }
+                        </span>
+                      </p>
+                      <p>
+                        Picked In
+                        <span className="font-medium text-[12px] ml-1">
+                          {
+                            el?.stage3Result[el?.stage3Result?.length - 1]
+                              ?.pickedAt
+                          }
+                        </span>
+                      </p>
+                      <p>
+                        Picked:
+                        <span className="font-medium text-[12px] ml-1">
+                          {
+                            el?.stage3Result[el?.stage3Result?.length - 1]
+                              ?.option
+                          }
+                        </span>
+                      </p>
+
+                      <p>
+                        Option:
+                        <span className="font-medium text-[12px] ml-1">
+                          {
+                            el?.stage3Result[el?.stage3Result?.length - 1]
+                              ?.optionPicked
+                          }
+                        </span>
+                      </p>
+
+                      <div className="absolute -bottom-2 -right-2 w-12 h-12 rounded-full border overflow-hidden">
+                        <img
+                          alt="image"
+                          src={el?.avatar}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : myData[presentStage]?.id === "stage4" ? (
+                <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
+                  {allUsers?.map((el: any) => (
+                    <div
+                      className={`relative border rounded-md w-[150px] min-h-[60px] py-1 px-2 text-[12px] flex flex-col justify-between ${
+                        el?.stage4Result[el?.stage4Result?.length - 1]?.correct
+                          ? "bg-green-50"
+                          : "bg-red-50"
+                      }`}
+                    >
+                      <p className="font-medium">{el?.stage4Result[1]?.name}</p>
+                      <p>
+                        Points:{" "}
+                        <span className="font-medium text-[14px]">
+                          {
+                            el?.stage4Result[el?.stage4Result?.length - 1]
+                              ?.point
+                          }
+                        </span>
+                      </p>
+                      <p>
+                        Picked In
+                        <span className="font-medium text-[12px] ml-1">
+                          {
+                            el?.stage4Result[el?.stage4Result?.length - 1]
+                              ?.pickedAt
+                          }
+                        </span>
+                      </p>
+                      <p>
+                        Picked:
+                        <span className="font-medium text-[12px] ml-1">
+                          {
+                            el?.stage4Result[el?.stage4Result?.length - 1]
+                              ?.option
+                          }
+                        </span>
+                      </p>
+
+                      <p>
+                        Option:
+                        <span className="font-medium text-[12px] ml-1">
+                          {
+                            el?.stage4Result[el?.stage4Result?.length - 1]
+                              ?.optionPicked
+                          }
+                        </span>
+                      </p>
+
+                      <div className="absolute -bottom-2 -right-2 w-12 h-12 rounded-full border overflow-hidden">
+                        <img
+                          alt="image"
+                          src={el?.avatar}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          )}
         </div>
 
         {user && presentStage && (
@@ -149,6 +388,7 @@ export const MainQuestion = () => {
                     }
                     `}
                         onClick={() => {
+                          console.log(el.id);
                           if (user.status === "student") {
                             setMyPickOption(el.id);
                             setMyPick({
@@ -175,6 +415,7 @@ export const MainQuestion = () => {
                                     myData[presentStage]?.data[questionNumber]
                                       .id,
                                   correct: el.correct,
+                                  optionPicked: el.id,
                                   option: el.option,
                                   name: `${user?.firstName} ${user?.lastName}`,
                                   school: user?.schoolName,
@@ -199,6 +440,7 @@ export const MainQuestion = () => {
                                     myData[presentStage]?.data[questionNumber]
                                       .id,
                                   correct: el.correct,
+                                  optionPicked: el.id,
                                   option: el.option,
                                   name: `${user?.firstName} ${user?.lastName}`,
                                   school: user?.schoolName,
@@ -226,6 +468,7 @@ export const MainQuestion = () => {
                                       .id,
                                   correct: el.correct,
                                   option: el.option,
+                                  optionPicked: el.id,
                                   name: `${user?.firstName} ${user?.lastName}`,
                                   school: user?.schoolName,
                                   stage: myData[presentStage]?.id,
@@ -251,6 +494,7 @@ export const MainQuestion = () => {
                                     myData[presentStage]?.data[questionNumber]
                                       .id,
                                   correct: el.correct,
+                                  optionPicked: el.id,
                                   option: el.option,
                                   name: `${user?.firstName} ${user?.lastName}`,
                                   school: user?.schoolName,
@@ -383,6 +627,15 @@ export const MainQuestion = () => {
                               }
                             </span>
                           </p>
+                          <p>
+                            Option:
+                            <span className="font-medium text-[12px] ml-1">
+                              {
+                                el?.stage1Result[el?.stage1Result?.length - 1]
+                                  ?.optionPicked
+                              }
+                            </span>
+                          </p>
 
                           <div className="absolute -bottom-2 -right-2 w-12 h-12 rounded-full border overflow-hidden">
                             <img
@@ -432,6 +685,15 @@ export const MainQuestion = () => {
                               {
                                 el?.stage2Result[el?.stage2Result?.length - 1]
                                   ?.option
+                              }
+                            </span>
+                          </p>
+                          <p>
+                            Option:
+                            <span className="font-medium text-[12px] ml-1">
+                              {
+                                el?.stage2Result[el?.stage2Result?.length - 1]
+                                  ?.optionPicked
                               }
                             </span>
                           </p>
@@ -488,6 +750,16 @@ export const MainQuestion = () => {
                             </span>
                           </p>
 
+                          <p>
+                            Option:
+                            <span className="font-medium text-[12px] ml-1">
+                              {
+                                el?.stage3Result[el?.stage3Result?.length - 1]
+                                  ?.optionPicked
+                              }
+                            </span>
+                          </p>
+
                           <div className="absolute -bottom-2 -right-2 w-12 h-12 rounded-full border overflow-hidden">
                             <img
                               alt="image"
@@ -536,6 +808,16 @@ export const MainQuestion = () => {
                               {
                                 el?.stage4Result[el?.stage4Result?.length - 1]
                                   ?.option
+                              }
+                            </span>
+                          </p>
+
+                          <p>
+                            Option:
+                            <span className="font-medium text-[12px] ml-1">
+                              {
+                                el?.stage4Result[el?.stage4Result?.length - 1]
+                                  ?.optionPicked
                               }
                             </span>
                           </p>
@@ -644,30 +926,32 @@ export const MainQuestion = () => {
                       .sort((a: any, b: any) => {
                         return a.stage2Score - b.stage2Score;
                       })
-                      ?.map((props: any) => (
-                        <div
-                          key={props?._id}
-                          className="p-2 border w-[180px] min-h-[100px]"
-                        >
-                          <div className="flex gap-2">
-                            <img
-                              src={props?.avatar}
-                              className="w-14 h-14 border-black border rounded-full object-cover"
-                            />
+                      ?.map((props: any) => {
+                        return (
+                          <div
+                            key={props?._id}
+                            className="p-2 border w-[180px] min-h-[100px]"
+                          >
+                            <div className="flex gap-2">
+                              <img
+                                src={props?.avatar}
+                                className="w-14 h-14 border-black border rounded-full object-cover"
+                              />
 
-                            <div className="text-[12px]">
-                              <p>School: {props?.schoolName}</p>
-                              <p>Points: {props?.stage1Score}</p>
+                              <div className="text-[12px]">
+                                <p>School: {props?.schoolName}</p>
+                                <p>Points: {props?.stage2Score}</p>
+                              </div>
                             </div>
+                            <p className="mt-3 text-[14px]">
+                              Name:{" "}
+                              <span className="font-semibold">
+                                {props?.firstName}
+                              </span>
+                            </p>
                           </div>
-                          <p className="mt-3 text-[14px]">
-                            Name:{" "}
-                            <span className="font-semibold">
-                              {props?.firstName}
-                            </span>
-                          </p>
-                        </div>
-                      ))}
+                        );
+                      })}
                   </div>
 
                   {/* */}
@@ -713,7 +997,7 @@ export const MainQuestion = () => {
 
                             <div className="text-[12px]">
                               <p>School: {props?.schoolName}</p>
-                              <p>Points: {props?.stage1Score}</p>
+                              <p>Points: {props?.stage3Score}</p>
                             </div>
                           </div>
                           <p className="mt-3 text-[14px]">
@@ -769,7 +1053,7 @@ export const MainQuestion = () => {
 
                             <div className="text-[12px]">
                               <p>School: {props?.schoolName}</p>
-                              <p>Points: {props?.stage1Score}</p>
+                              <p>Points: {props?.stage4Score}</p>
                             </div>
                           </div>
                           <p className="mt-3 text-[14px]">

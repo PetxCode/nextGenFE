@@ -6,6 +6,7 @@ const useSocket = () => {
 
   useEffect(() => {
     const conn = io("https://nextgenbe.onrender.com");
+    // const conn = io("http://localhost:2244");
     setSocket(conn);
 
     return () => {

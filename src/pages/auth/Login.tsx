@@ -1,6 +1,6 @@
 import { useState } from "react";
 import logo from "../../assets/web_asset/LogoNextGen.png";
-import { MdArrowForward } from "react-icons/md";
+import { MdArrowForward, MdVisibility, MdVisibilityOff } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { loginAccount } from "@/api/API";
 import { FaSpinner } from "react-icons/fa";
@@ -12,6 +12,7 @@ const LoginScreen = () => {
 
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
 
   const LoginUserAccount = (e: any) => {
     e.preventDefault();
@@ -67,13 +68,35 @@ const LoginScreen = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                <input
-                  className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px]  flex-1 pl-2 border border-black text-black outline-none"
-                  placeholder="Password"
-                  type=""
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
+                {visible ? (
+                  <div className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px] flex justify-between items-center flex-1 pl-2 border border-black text-black outline-none">
+                    <input
+                      className="h-[40px] w-[80%] md:py-0 md:min-h-[50px] lg:min-h-[68px] flex-1 border-black text-black outline-none bg-transparent"
+                      placeholder="Password"
+                      type="text"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <MdVisibilityOff
+                      className="mx-4 text-[20px] cursor-pointer"
+                      onClick={() => setVisible(!visible)}
+                    />
+                  </div>
+                ) : (
+                  <div className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px] flex justify-between items-center flex-1 pl-2 border border-black text-black outline-none">
+                    <input
+                      className="h-[48px] w-[80%] md:py-0 md:min-h-[50px] lg:min-h-[68px] flex-1 border-black text-black outline-none bg-transparent"
+                      placeholder="Password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <MdVisibility
+                      className="mx-4 text-[20px] cursor-pointer"
+                      onClick={() => setVisible(!visible)}
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="mt-20" />

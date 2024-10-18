@@ -176,7 +176,7 @@ const Register = () => {
 
               <div className="flex flex-col sm:flex-row  gap-2 w-full mt-2">
                 {visible ? (
-                  <div className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px] flex justify-between items-center flex-1 pl-2 border border-black text-black outline-none">
+                  <div className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px] flex justify-between items-center flex-1 pl-2 border border-black text-black outline-none bg-transparent">
                     <input
                       className="h-[40px] w-[80%] md:py-0 md:min-h-[50px] lg:min-h-[68px] flex-1 border-black text-black outline-none"
                       placeholder="Password"
@@ -190,7 +190,7 @@ const Register = () => {
                     />
                   </div>
                 ) : (
-                  <div className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px] flex justify-between items-center flex-1 pl-2 border border-black text-black outline-none">
+                  <div className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px] flex justify-between items-center flex-1 pl-2 border border-black text-black outline-none bg-transparent">
                     <input
                       className="h-[40px] w-[80%] md:py-0 md:min-h-[50px] lg:min-h-[68px] flex-1 border-black text-black outline-none"
                       placeholder="Password"
@@ -206,7 +206,7 @@ const Register = () => {
                 )}
 
                 {visibleConfirm ? (
-                  <div className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px] flex justify-between items-center flex-1 pl-2 border border-black text-black outline-none">
+                  <div className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px] flex justify-between items-center flex-1 pl-2 border border-black text-black outline-none bg-transparent">
                     <input
                       className="h-[40px] w-[80%] md:py-0 md:min-h-[50px] lg:min-h-[68px] flex-1 border-black text-black outline-none"
                       placeholder="Confirm Password"
@@ -220,7 +220,7 @@ const Register = () => {
                     />
                   </div>
                 ) : (
-                  <div className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px] flex justify-between items-center flex-1 pl-2 border border-black text-black outline-none">
+                  <div className="h-[45px] py-3 md:py-0  md:min-h-[50px] lg:min-h-[70px] flex justify-between items-center flex-1 pl-2 border border-black text-black outline-none bg-transparent">
                     <input
                       className="h-[40px] w-[80%] md:py-0 md:min-h-[50px] lg:min-h-[68px] flex-1 border-black text-black outline-none"
                       placeholder="Confirm Password"
