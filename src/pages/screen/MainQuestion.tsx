@@ -67,8 +67,6 @@ export const MainQuestion = () => {
       return new Date(`${b.time}`).getTime() - new Date(`${a.time}`).getTime();
     });
 
-  console.log(presentStageData);
-  console.log(readSort);
   return (
     <div className="relative flex justify-center mt-10 items-center ">
       <div className="flex flex-col lg:flex-row gap-4 justify-between min-h-[80] w-[80%]">
