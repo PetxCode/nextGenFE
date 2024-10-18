@@ -5,7 +5,7 @@ const useSocket = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
 
   useEffect(() => {
-    const conn = io("http://localhost:2244");
+    const conn = io("https://nextgenbe.onrender.com");
     setSocket(conn);
 
     return () => {
