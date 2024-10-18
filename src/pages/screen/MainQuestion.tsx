@@ -342,8 +342,7 @@ export const MainQuestion = () => {
                     </h1>
                   </div>
 
-                  {myData[presentStage]?.data[questionNumber]?.id ===
-                  "stage1" ? (
+                  {myData[presentStage]?.id === "stage1" ? (
                     <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
                       {allUsers?.map((el: any) => (
                         <div
@@ -395,8 +394,7 @@ export const MainQuestion = () => {
                         </div>
                       ))}
                     </div>
-                  ) : myData[presentStage]?.data[questionNumber]?.id ===
-                    "stage2" ? (
+                  ) : myData[presentStage]?.id === "stage2" ? (
                     <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
                       {allUsers?.map((el: any) => (
                         <div
@@ -448,8 +446,7 @@ export const MainQuestion = () => {
                         </div>
                       ))}
                     </div>
-                  ) : myData[presentStage]?.data[questionNumber]?.id ===
-                    "stage3" ? (
+                  ) : myData[presentStage]?.id === "stage3" ? (
                     <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
                       {allUsers?.map((el: any) => (
                         <div
@@ -501,8 +498,7 @@ export const MainQuestion = () => {
                         </div>
                       ))}
                     </div>
-                  ) : myData[presentStage]?.data[questionNumber]?.id ===
-                    "stage4" ? (
+                  ) : myData[presentStage]?.id === "stage4" ? (
                     <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
                       {allUsers?.map((el: any) => (
                         <div
