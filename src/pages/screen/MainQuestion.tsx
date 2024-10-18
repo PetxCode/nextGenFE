@@ -17,7 +17,7 @@ export const MainQuestion = () => {
   const socket = useSocket();
   const [questionNumber, setQuestionNumber] = useState<number>(0);
   const [presentStage, setPresentStage] = useState<string>("");
-  const [presentStageData, setPresentStageData] = useState<string>("");
+  // const [presentStageData, setPresentStageData] = useState<string>("");
 
   const [myPick, setMyPick] = useState<any | null>(null);
   const [myPickOption, setMyPickOption] = useState<any | null>(null);
@@ -57,15 +57,15 @@ export const MainQuestion = () => {
   let state3Data = [...allUsers];
   let state4Data = [...allUsers];
 
-  let sortResult = [...allUsers];
+  // let sortResult = [...allUsers];
 
-  const readSort = sortResult
-    .map((el: any) => {
-      return el.stage2Result[el?.stage1Result?.length - 1];
-    })
-    .sort((a: any, b: any) => {
-      return new Date(`${b.time}`).getTime() - new Date(`${a.time}`).getTime();
-    });
+  // const readSort = sortResult
+  //   .map((el: any) => {
+  //     return el.stage2Result[el?.stage1Result?.length - 1];
+  //   })
+  //   .sort((a: any, b: any) => {
+  //     return new Date(`${b.time}`).getTime() - new Date(`${a.time}`).getTime();
+  //   });
 
   return (
     <div className="relative flex justify-center mt-10 items-center ">
@@ -79,18 +79,18 @@ export const MainQuestion = () => {
               } rounded-md my-2 `}
               onClick={() => {
                 user.status === "admin" && setPresentStage(el);
-                user.status === "admin" &&
-                  setPresentStageData(
-                    el === "stage1"
-                      ? "stage1Result"
-                      : el === "stage2"
-                      ? "stage2Result"
-                      : el === "stage3"
-                      ? "stage3Result"
-                      : el === "stage4"
-                      ? "stage4Result"
-                      : ""
-                  );
+                // user.status === "admin" &&
+                // setPresentStageData(
+                //   el === "stage1"
+                //     ? "stage1Result"
+                //     : el === "stage2"
+                //     ? "stage2Result"
+                //     : el === "stage3"
+                //     ? "stage3Result"
+                //     : el === "stage4"
+                //     ? "stage4Result"
+                //     : ""
+                // );
               }}
             >
               {el}
