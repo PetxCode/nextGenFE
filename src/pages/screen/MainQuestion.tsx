@@ -342,57 +342,219 @@ export const MainQuestion = () => {
                     </h1>
                   </div>
 
-                  <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
-                    {allUsers?.map((el: any) => (
-                      <div
-                        className={`relative border rounded-md w-[150px] min-h-[60px] py-1 px-2 text-[12px] flex flex-col justify-between ${
-                          el?.stage1Result[el?.stage1Result?.length - 1]
-                            ?.correct
-                            ? "bg-green-50"
-                            : "bg-red-50"
-                        }`}
-                      >
-                        <p className="font-medium">
-                          {el?.stage1Result[1]?.name}
-                        </p>
-                        <p>
-                          Points:{" "}
-                          <span className="font-medium text-[14px]">
-                            {
-                              el?.stage1Result[el?.stage1Result?.length - 1]
-                                ?.point
-                            }
-                          </span>
-                        </p>
-                        <p>
-                          Picked In
-                          <span className="font-medium text-[12px] ml-1">
-                            {
-                              el?.stage1Result[el?.stage1Result?.length - 1]
-                                ?.pickedAt
-                            }
-                          </span>
-                        </p>
-                        <p>
-                          Picked:
-                          <span className="font-medium text-[12px] ml-1">
-                            {
-                              el?.stage1Result[el?.stage1Result?.length - 1]
-                                ?.option
-                            }
-                          </span>
-                        </p>
+                  {myData[presentStage]?.data[questionNumber]?.id ===
+                  "stage1" ? (
+                    <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
+                      {allUsers?.map((el: any) => (
+                        <div
+                          className={`relative border rounded-md w-[150px] min-h-[60px] py-1 px-2 text-[12px] flex flex-col justify-between ${
+                            el?.stage1Result[el?.stage1Result?.length - 1]
+                              ?.correct
+                              ? "bg-green-50"
+                              : "bg-red-50"
+                          }`}
+                        >
+                          <p className="font-medium">
+                            {el?.stage1Result[1]?.name}
+                          </p>
+                          <p>
+                            Points:{" "}
+                            <span className="font-medium text-[14px]">
+                              {
+                                el?.stage1Result[el?.stage1Result?.length - 1]
+                                  ?.point
+                              }
+                            </span>
+                          </p>
+                          <p>
+                            Picked In
+                            <span className="font-medium text-[12px] ml-1">
+                              {
+                                el?.stage1Result[el?.stage1Result?.length - 1]
+                                  ?.pickedAt
+                              }
+                            </span>
+                          </p>
+                          <p>
+                            Picked:
+                            <span className="font-medium text-[12px] ml-1">
+                              {
+                                el?.stage1Result[el?.stage1Result?.length - 1]
+                                  ?.option
+                              }
+                            </span>
+                          </p>
 
-                        <div className="absolute -bottom-2 -right-2 w-12 h-12 rounded-full border overflow-hidden">
-                          <img
-                            alt="image"
-                            src={el?.avatar}
-                            className="h-full w-full object-cover"
-                          />
+                          <div className="absolute -bottom-2 -right-2 w-12 h-12 rounded-full border overflow-hidden">
+                            <img
+                              alt="image"
+                              src={el?.avatar}
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  ) : myData[presentStage]?.data[questionNumber]?.id ===
+                    "stage2" ? (
+                    <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
+                      {allUsers?.map((el: any) => (
+                        <div
+                          className={`relative border rounded-md w-[150px] min-h-[60px] py-1 px-2 text-[12px] flex flex-col justify-between ${
+                            el?.stage2Result[el?.stage2Result?.length - 1]
+                              ?.correct
+                              ? "bg-green-50"
+                              : "bg-red-50"
+                          }`}
+                        >
+                          <p className="font-medium">
+                            {el?.stage2Result[1]?.name}
+                          </p>
+                          <p>
+                            Points:{" "}
+                            <span className="font-medium text-[14px]">
+                              {
+                                el?.stage2Result[el?.stage2Result?.length - 1]
+                                  ?.point
+                              }
+                            </span>
+                          </p>
+                          <p>
+                            Picked In
+                            <span className="font-medium text-[12px] ml-1">
+                              {
+                                el?.stage2Result[el?.stage2Result?.length - 1]
+                                  ?.pickedAt
+                              }
+                            </span>
+                          </p>
+                          <p>
+                            Picked:
+                            <span className="font-medium text-[12px] ml-1">
+                              {
+                                el?.stage2Result[el?.stage2Result?.length - 1]
+                                  ?.option
+                              }
+                            </span>
+                          </p>
+
+                          <div className="absolute -bottom-2 -right-2 w-12 h-12 rounded-full border overflow-hidden">
+                            <img
+                              alt="image"
+                              src={el?.avatar}
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : myData[presentStage]?.data[questionNumber]?.id ===
+                    "stage3" ? (
+                    <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
+                      {allUsers?.map((el: any) => (
+                        <div
+                          className={`relative border rounded-md w-[150px] min-h-[60px] py-1 px-2 text-[12px] flex flex-col justify-between ${
+                            el?.stage3Result[el?.stage3Result?.length - 1]
+                              ?.correct
+                              ? "bg-green-50"
+                              : "bg-red-50"
+                          }`}
+                        >
+                          <p className="font-medium">
+                            {el?.stage3Result[1]?.name}
+                          </p>
+                          <p>
+                            Points:{" "}
+                            <span className="font-medium text-[14px]">
+                              {
+                                el?.stage3Result[el?.stage3Result?.length - 1]
+                                  ?.point
+                              }
+                            </span>
+                          </p>
+                          <p>
+                            Picked In
+                            <span className="font-medium text-[12px] ml-1">
+                              {
+                                el?.stage3Result[el?.stage3Result?.length - 1]
+                                  ?.pickedAt
+                              }
+                            </span>
+                          </p>
+                          <p>
+                            Picked:
+                            <span className="font-medium text-[12px] ml-1">
+                              {
+                                el?.stage3Result[el?.stage3Result?.length - 1]
+                                  ?.option
+                              }
+                            </span>
+                          </p>
+
+                          <div className="absolute -bottom-2 -right-2 w-12 h-12 rounded-full border overflow-hidden">
+                            <img
+                              alt="image"
+                              src={el?.avatar}
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : myData[presentStage]?.data[questionNumber]?.id ===
+                    "stage4" ? (
+                    <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
+                      {allUsers?.map((el: any) => (
+                        <div
+                          className={`relative border rounded-md w-[150px] min-h-[60px] py-1 px-2 text-[12px] flex flex-col justify-between ${
+                            el?.stage4Result[el?.stage4Result?.length - 1]
+                              ?.correct
+                              ? "bg-green-50"
+                              : "bg-red-50"
+                          }`}
+                        >
+                          <p className="font-medium">
+                            {el?.stage4Result[1]?.name}
+                          </p>
+                          <p>
+                            Points:{" "}
+                            <span className="font-medium text-[14px]">
+                              {
+                                el?.stage4Result[el?.stage4Result?.length - 1]
+                                  ?.point
+                              }
+                            </span>
+                          </p>
+                          <p>
+                            Picked In
+                            <span className="font-medium text-[12px] ml-1">
+                              {
+                                el?.stage4Result[el?.stage4Result?.length - 1]
+                                  ?.pickedAt
+                              }
+                            </span>
+                          </p>
+                          <p>
+                            Picked:
+                            <span className="font-medium text-[12px] ml-1">
+                              {
+                                el?.stage4Result[el?.stage4Result?.length - 1]
+                                  ?.option
+                              }
+                            </span>
+                          </p>
+
+                          <div className="absolute -bottom-2 -right-2 w-12 h-12 rounded-full border overflow-hidden">
+                            <img
+                              alt="image"
+                              src={el?.avatar}
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
                 </div>
               )}
               <div className="flex-1" />
