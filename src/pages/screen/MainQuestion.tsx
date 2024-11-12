@@ -52,10 +52,13 @@ export const MainQuestion = () => {
   }, [socket, presentStage, questionNumber]);
 
   const myData: any = { ...data };
+
   let state1Data = [...allUsers];
   let state2Data = [...allUsers];
   let state3Data = [...allUsers];
   let state4Data = [...allUsers];
+
+  console.log(allUsers);
 
   // let sortResult = [...allUsers];
 
@@ -335,6 +338,18 @@ export const MainQuestion = () => {
               ) : null}
             </div>
           )}
+          {user?.status === "admin" && (
+            <button
+              className={` border px-10 py-3 ${
+                presentStage === "" ? "bg-blue-950 text-white" : "bg-slate-50"
+              } rounded-md my-2 `}
+              onClick={() => {
+                setPresentStage("");
+              }}
+            >
+              Break
+            </button>
+          )}
         </div>
 
         {user && presentStage && (
@@ -576,7 +591,7 @@ export const MainQuestion = () => {
               {user?.status === "admin" && (
                 <div>
                   <div>
-                    <p>Students Result Outcomes for </p>
+                    <p>Students Result Outcomes for</p>
                     <p className="">{myData[presentStage]?.id}</p>
                     <h1 className=" mb-4 font-semibold text-[12px]">
                       Question
@@ -587,7 +602,7 @@ export const MainQuestion = () => {
                   </div>
 
                   {myData[presentStage]?.id === "stage1" ? (
-                    <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
+                    <div className=" flex gap-3 flex-wrap  w-full max-h-[600px] overflow-auto">
                       {allUsers?.map((el: any) => (
                         <div
                           className={`relative border rounded-md w-[150px] min-h-[60px] py-1 px-2 text-[12px] flex flex-col justify-between ${
@@ -641,14 +656,14 @@ export const MainQuestion = () => {
                             <img
                               alt="image"
                               src={el?.avatar}
-                              className="h-full w-full object-cover"
+                              className="h-full bg-white w-full object-cover"
                             />
                           </div>
                         </div>
                       ))}
                     </div>
                   ) : myData[presentStage]?.id === "stage2" ? (
-                    <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
+                    <div className=" flex gap-3 flex-wrap  w-full max-h-[600px] overflow-auto">
                       {allUsers?.map((el: any) => (
                         <div
                           className={`relative border rounded-md w-[150px] min-h-[60px] py-1 px-2 text-[12px] flex flex-col justify-between ${
@@ -709,7 +724,7 @@ export const MainQuestion = () => {
                       ))}
                     </div>
                   ) : myData[presentStage]?.id === "stage3" ? (
-                    <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
+                    <div className=" flex gap-3 flex-wrap  w-full max-h-[600px] overflow-auto ">
                       {allUsers?.map((el: any) => (
                         <div
                           className={`relative border rounded-md w-[150px] min-h-[60px] py-1 px-2 text-[12px] flex flex-col justify-between ${
@@ -771,7 +786,7 @@ export const MainQuestion = () => {
                       ))}
                     </div>
                   ) : myData[presentStage]?.id === "stage4" ? (
-                    <div className=" flex gap-3 flex-wrap  w-full max-h-[500px] ">
+                    <div className=" flex gap-3 flex-wrap  w-full max-h-[600px] overflow-auto ">
                       {allUsers?.map((el: any) => (
                         <div
                           className={`relative border rounded-md w-[150px] min-h-[60px] py-1 px-2 text-[12px] flex flex-col justify-between ${
@@ -836,6 +851,55 @@ export const MainQuestion = () => {
                 </div>
               )}
               <div className="flex-1" />
+            </div>
+          </div>
+        )}
+
+        {user && presentStage === "" && (
+          <div className="flex-1 h-[80vh] p-2 border overflow-auto">
+            <div className="uppercase text-[12px]">
+              This is for Break Sessions
+            </div>
+            <div className="uppercase mt-16 italic font-semibold text-[20px]">
+              Students present Performance
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 mt-2 gap-2 ">
+              {allUsers?.map((el: any) => (
+                <div className="border  h-[120px] p-2 flex gap-2">
+                  <div className="w-12 border h-12 rounded-full overflow-hidden">
+                    <img
+                      src={el?.avatar}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="text-[12px] h-full flex flex-col">
+                    <p>{el?.lastName}</p>
+                    <p>Total Points</p>
+
+                    <div className="flex gap-2">
+                      <p>stage 1: {el?.stage1Score}</p>
+                      <p>stage 2: {el?.stage2Score}</p>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <p>stage 3: {el?.stage3Score}</p>
+                      <p>stage 4: {el?.stage4Score}</p>
+                    </div>
+
+                    <div className="flex-1" />
+                    <p>
+                      Total Score:{" "}
+                      <span>
+                        {el?.stage1Score +
+                          el?.stage2Score +
+                          el?.stage3Score +
+                          el?.stage4Score}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         )}
@@ -1035,7 +1099,7 @@ export const MainQuestion = () => {
                 </div>
 
                 <div className="mt-10">
-                  <div className="relative flex flex-wrap gap-2">
+                  {/* <div className="relative flex flex-wrap gap-2">
                     {state4Data
                       .sort((a: any, b: any) => {
                         return a.stage4Score - b.stage4Score;
@@ -1064,7 +1128,7 @@ export const MainQuestion = () => {
                           </p>
                         </div>
                       ))}
-                  </div>
+                  </div> */}
 
                   {/* */}
                 </div>
