@@ -3,7 +3,7 @@ import SchoolLogos from "@/components/SchoolLogos";
 import StudentProfileSlider from "@/components/StudentProfileSlider";
 
 import codelab from "../../assets/CodeLab Best Logo.png";
-import codebook from "../../assets/codebook black.png";
+import codebook from "../../assets/local.jpeg";
 import next from "../../assets/next.jpg";
 import codify from "../../assets/codify.png";
 
@@ -119,19 +119,19 @@ const LandingPage = () => {
             {sponsorLogo?.map((el) => (
               <a
                 key={el.id}
-                className="flex justify-center items-center  h-[80px] rounded-md border cursor-pointer *:hover:opacity:100 *:hover:scale-[1.05] transition-all duration-300"
+                className=" flex justify-center items-center  h-[80px] rounded-md border cursor-pointer *:hover:opacity:100 *:hover:scale-[1.05] transition-all duration-300  "
                 href={`${el.url}`}
                 target="_blank"
               >
                 <img
                   alt={el.title}
                   src={el.logo}
-                  className="h-[40px] object-contain transition-all duration-300 opacity-70 p-1"
+                  className=" [&:nth-child(3)]:h-[80] h-[40px] object-contain transition-all duration-300 opacity-70 p-1"
                 />
               </a>
             ))}
           </div>
-          <p className=" font-semibold leading-tight text-[25px] md:text-[30px] mt-5 uppercase">
+          <p className=" font-semibold leading-tight text-[15px] md:text-[20px] mt-5 uppercase">
             Participating Schools/Students
           </p>
         </div>

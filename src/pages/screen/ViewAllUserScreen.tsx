@@ -90,7 +90,7 @@ const ViewUsers = () => {
                 />
 
                 <img
-                  src={el?.image}
+                  src={el?.avatar}
                   alt="Gallery"
                   className="w-full border h-[350px] rounded-md object-cover cursor-pointer"
                 />

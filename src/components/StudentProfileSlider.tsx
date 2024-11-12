@@ -11,10 +11,10 @@ import {
   useMotionValue,
 } from "framer-motion";
 import useMeasure from "react-use-measure";
-
-const images = [pix, pix1, pix2, pix3, pix4];
+import { useUserAccount } from "@/hooks/useGallary";
 
 const StudentProfileSlider = () => {
+  const { data }: any = useUserAccount();
   const [ref, { width }] = useMeasure();
   let xMovement = useMotionValue(0);
 
@@ -70,11 +70,9 @@ const StudentProfileSlider = () => {
         style={{ x: xMovement }}
         className="flex w-max gap-4"
       >
-        {Array.from({ length: 3 }, () => {
-          return images;
-        }).map((el: any) => {
-          return el.map((el: any, i: number) => <Card key={i} el={el} />);
-        })}
+        {data?.map((el: any, i: number) => (
+          <Card key={i} el={el} />
+        ))}
       </motion.div>
     </div>
   );
@@ -83,7 +81,7 @@ const StudentProfileSlider = () => {
 export default StudentProfileSlider;
 
 interface iProps {
-  el: string;
+  el: any;
 }
 
 const Card: FC<iProps> = ({ el }) => {
@@ -108,14 +106,31 @@ const Card: FC<iProps> = ({ el }) => {
               initial={{ y: 10 }}
               animate={{ y: 0 }}
               exit={{ y: 10 }}
-              className="w-[80%] h-[100px] rounded-md bg-white p-2 z-40 "
+              className="w-[80%] min-h-[100px] pb-3 flex flex-col rounded-md bg-white p-2 z-40 "
             >
-              started
+              <p className="uppercase leading-[1]">
+                {el?.firstName} {el?.lastName}
+              </p>
+              <p className="text-[12px]  leading-[1] lowercase">
+                <p className="capitalize">{el?.schoolName}</p>
+              </p>
+
+              <div className="flex-1" />
+              <div className="flex ">
+                <p className="text-[12px] uppercase font-semibold flex items-center gap-2">
+                  {el?.presentClass}{" "}
+                  <div className="w-1 h-1 rounded-full bg-black" /> {el?.phone}
+                </p>
+              </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-      <img src={el} alt="images" className="w-full h-full object-cover " />
+      <img
+        src={el?.avatar}
+        alt="images"
+        className="w-full h-full object-cover "
+      />
     </motion.div>
   );
 };

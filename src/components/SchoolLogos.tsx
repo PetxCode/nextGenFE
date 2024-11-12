@@ -11,10 +11,14 @@ import {
   useMotionValue,
 } from "framer-motion";
 import useMeasure from "react-use-measure";
+import lodash from "lodash";
+import { useUserAccount } from "@/hooks/useGallary";
 
 const images = [pix, pix1, pix2, pix3, pix4];
 
 const SchoolLogos = () => {
+  const { data }: any = useUserAccount();
+
   const [ref, { width }] = useMeasure();
   let xMovement = useMotionValue(0);
 
@@ -25,6 +29,8 @@ const SchoolLogos = () => {
 
   const [finished, setFinished] = useState<boolean>(false);
   const [render, setRender] = useState<boolean>(false);
+
+  const schools = lodash.countBy(data, "schoolName");
 
   useEffect(() => {
     let control;
@@ -67,11 +73,9 @@ const SchoolLogos = () => {
         style={{ x: xMovement }}
         className="flex w-max gap-4"
       >
-        {Array.from({ length: 5 }, () => {
-          return images;
-        }).map((el: any) => {
-          return el.map((el: any, i: number) => <Card key={i} el={el} />);
-        })}
+        {Object.keys(schools).map((el: any, i: number) => (
+          <Card key={i} el={el} />
+        ))}
       </motion.div>
     </div>
   );
@@ -102,7 +106,10 @@ const Card: FC<iProps> = ({ el }) => {
           </motion.div>
         )}
       </AnimatePresence>
-      <img src={el} alt="images" className="w-full h-full object-cover " />
+
+      <p className=" text-center w-full h-full flex items-center justify-center text-[15px] font-semibold uppercase px-4">
+        {el}
+      </p>
     </motion.div>
   );
 };
