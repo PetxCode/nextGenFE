@@ -2,7 +2,6 @@ import axios from "axios";
 
 // const url: string = `http://localhost:2244`;
 const url: string = `https://nextgenbe.onrender.com`;
-// const url: string = `51.21.31.219:2244`;
 
 export const createAccount = (data: any) => {
   try {

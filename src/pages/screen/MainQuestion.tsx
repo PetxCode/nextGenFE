@@ -71,6 +71,7 @@ export const MainQuestion = () => {
     <div className="relative flex justify-center mt-10 items-center ">
       <div className="flex flex-col lg:flex-row gap-4 justify-between min-h-[80] w-[80%]">
         <div className="min-w-[200px] rounded-md gap-2 lg:h-[200px] grid grid-cols-2 lg:grid-cols-1 items-center justify-center flex-wrap">
+          {user?.status} || {user?.lastName}
           {Object.keys(data).map((el: string, i: number) => (
             <button
               key={i}
@@ -84,9 +85,8 @@ export const MainQuestion = () => {
               {el}
             </button>
           ))}
-
           {!user && (
-            <div>
+            <div className="overflow-auto">
               <div>
                 <p>Students Result Outcomes for </p>
                 <h1 className=" mb-4 font-semibold text-[12px] flex gap-3">
