@@ -68,12 +68,27 @@ export const MainQuestion = () => {
   //     return new Date(`${b.time}`).getTime() - new Date(`${a.time}`).getTime();
   //   });
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey && event.key === "r") || event.key === "F5") {
+        event.preventDefault();
+        alert("Refresh is disabled on this page.");
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <div className="relative flex justify-center mt-10 items-center ">
       <div className="flex flex-col lg:flex-row gap-4 justify-between min-h-[80] w-[80%]">
         <div className="min-w-[200px] rounded-md gap-2 lg:h-[200px] grid grid-cols-2 lg:grid-cols-1 items-center justify-center flex-wrap">
           {user?.status} || {user?.lastName}
-          {Object.keys(data).map((el: string, i: number) => (
+          {Object?.keys(data)?.map((el: string, i: number) => (
             <button
               key={i}
               className={` border px-10 py-3 ${
@@ -151,7 +166,7 @@ export const MainQuestion = () => {
                         <img
                           alt="image"
                           src={el?.avatar}
-                          className="h-full w-full object-cover"
+                          className="h-full w-full ?-cover"
                         />
                       </div>
                     </div>
