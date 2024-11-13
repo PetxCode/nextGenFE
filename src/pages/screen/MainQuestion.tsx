@@ -11,6 +11,7 @@ import {
   stageThreeEndPoint,
   stageTwoEndPoint,
 } from "@/api/API";
+import { MyChart } from "./ChartScreen";
 
 export const MainQuestion = () => {
   const { user }: any = useContext(ContextProvider);
@@ -107,9 +108,9 @@ export const MainQuestion = () => {
             </button>
           ))}
           {!user && (
-            <div className="overflow-auto">
-              <div>
-                <p>Students Result Outcomes for </p>
+            <div className="overflow-auto mt-10 min-h-[60vh]">
+              <div className="mt-2">
+                <p className=" ">Students Result Outcomes for </p>
                 <h1 className=" mb-4 font-semibold text-[12px] flex gap-3">
                   <p className="">{myData[presentStage]?.id}</p>
                   Question
@@ -926,24 +927,12 @@ export const MainQuestion = () => {
           <div className="w-full flex flex-col">
             {myData[presentStage]?.id === "stage1" ? (
               <div>
-                <div className="h-[600px] flex gap-2  w-full bg-slate-50 p-2 border ">
-                  {allUsers?.map((props: any) => (
-                    <div className="h-full flex flex-col justify-end items-center  w-16 duration-300 transition-all overflow-hidden">
-                      <div
-                        className={` w-2 bg-blue-950 mb-2`}
-                        style={{
-                          height: `${(props?.stage1Score / 200) * 550}px`,
-                        }}
-                      />
-                      <div className="w-10 h-10 rounded-full bg-blue-950 overflow-hidden">
-                        <img
-                          src={props?.avatar}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <p className="text-[12px]">{props.firstName}</p>
-                    </div>
-                  ))}
+                <div className="min-h-[600px] flex gap-2  w-full bg-slate-50 p-2 border ">
+                  <MyChart
+                    data={allUsers}
+                    title="Stage One"
+                    stage="stage1Score"
+                  />
                 </div>
 
                 <div className="mt-10">
@@ -983,8 +972,14 @@ export const MainQuestion = () => {
               </div>
             ) : myData[presentStage]?.id === "stage2" ? (
               <div>
-                <div className="h-[500px] flex gap-2  w-full bg-slate-50 p-2 border ">
-                  {allUsers?.map((props: any) => (
+                <div className="min-h-[600px] flex gap-2  w-full bg-slate-50 p-2 border ">
+                  <MyChart
+                    data={allUsers}
+                    title="Stage One"
+                    stage="stage1Score"
+                    stage2="stage2Score"
+                  />
+                  {/* {allUsers?.map((props: any) => (
                     <div className="h-full flex flex-col justify-end items-center  w-16 duration-300 transition-all overflow-hidden">
                       <div
                         className={` w-2 bg-blue-950 mb-2`}
@@ -999,7 +994,7 @@ export const MainQuestion = () => {
                         />
                       </div>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
 
                 <div className="mt-10">
@@ -1041,8 +1036,15 @@ export const MainQuestion = () => {
               </div>
             ) : myData[presentStage]?.id === "stage3" ? (
               <div>
-                <div className="h-[500px] flex gap-2  w-full bg-slate-50 p-2 border ">
-                  {allUsers?.map((props: any) => (
+                <div className="min-h-[600px] flex gap-2  w-full bg-slate-50 p-2 border ">
+                  <MyChart
+                    data={allUsers}
+                    title="Stage Three"
+                    stage="stage1Score"
+                    stage2="stage2Score"
+                    stage3="stage3Score"
+                  />
+                  {/* {allUsers?.map((props: any) => (
                     <div className="h-full flex flex-col justify-end items-center  w-16 duration-300 transition-all overflow-hidden">
                       <div
                         className={` w-2 bg-blue-950 mb-2`}
@@ -1057,7 +1059,7 @@ export const MainQuestion = () => {
                         />
                       </div>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
 
                 <div className="mt-10">
@@ -1097,8 +1099,17 @@ export const MainQuestion = () => {
               </div>
             ) : myData[presentStage]?.id === "stage4" ? (
               <div>
-                <div className="h-[500px] flex gap-2  w-full bg-slate-50 p-2 border ">
-                  {allUsers?.map((props: any) => (
+                <div className="min-h-[600px] flex gap-2  w-full bg-slate-50 p-2 border ">
+                  <MyChart
+                    data={allUsers}
+                    title="Stage Four"
+                    stage="stage1Score"
+                    stage2="stage2Score"
+                    stage3="stage3Score"
+                    stage4="stage4Score"
+                  />
+
+                  {/* {allUsers?.map((props: any) => (
                     <div className="h-full flex flex-col justify-end items-center  w-16 duration-300 transition-all overflow-hidden">
                       <div
                         className={` w-2 bg-blue-950 mb-2`}
@@ -1113,7 +1124,7 @@ export const MainQuestion = () => {
                         />
                       </div>
                     </div>
-                  ))}
+                  ))} */}
                 </div>
 
                 <div className="mt-10">

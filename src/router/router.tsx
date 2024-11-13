@@ -5,6 +5,7 @@ import Layout from "@/layout/Layout";
 import LoginScreen from "@/pages/auth/Login";
 import Register from "@/pages/auth/Register";
 import LandingPage from "@/pages/design/LandingPage";
+import { MyChart } from "@/pages/screen/ChartScreen";
 import Gallary from "@/pages/screen/Gallary";
 
 import { MainQuestion } from "@/pages/screen/MainQuestion";
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
   {
     path: "/donate",
     element: <DonateScreen />,
+  },
+  {
+    path: "/just-chart",
+    element: <MyChart />,
   },
   {
     path: "/thank-you/successful-payment/",
