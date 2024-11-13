@@ -34,7 +34,7 @@ const chartConfig = {
   },
   stage4: {
     label: "stage4",
-    color: "red",
+    color: "purple",
   },
 } satisfies ChartConfig;
 
