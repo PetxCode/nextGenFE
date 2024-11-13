@@ -40,7 +40,12 @@ export const MainQuestion = () => {
   useEffect(() => {
     socket?.emit("questionNumber", questionNumber);
     socket?.on("questionNumber", ({ question, reset, numb }) => {
-      setQuestionNumber(question);
+      if (questionNumber === 20) {
+        setQuestionNumber(0);
+      } else {
+        setQuestionNumber(question);
+      }
+
       setTiming(numb);
       setMyPickOption(reset);
     });
