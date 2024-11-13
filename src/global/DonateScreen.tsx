@@ -1,7 +1,7 @@
-import { makeDonation } from "../api/API";
+// import { makeDonation } from "../api/API";
 import { useState } from "react";
 import { FaSpinner } from "react-icons/fa";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 
 const DonateScreen = () => {
   const [email, setEmail] = useState<any>("");
@@ -60,20 +60,20 @@ const DonateScreen = () => {
             className="ml-4 px-12 mb-5 cursor-pointer py-3 bg-black text-white mt-5"
             onClick={() => {
               setLoading(true);
-              makeDonation({ email, amount })
-                .then((res) => {
-                  console.log(res.data.data.authorization_url);
-                  if (res.status === 201) {
-                    toast.success("Awesome");
-                    window.location.assign(res.data.data.authorization_url);
-                  } else {
-                    toast.error("Error");
-                    setLoading(false);
-                  }
-                })
-                .finally(() => {
-                  setLoading(false);
-                });
+              // makeDonation({})
+              //   .then((res) => {
+              //     console.log(res.data.data.authorization_url);
+              //     if (res.status === 201) {
+              //       toast.success("Awesome");
+              //       window.location.assign(res.data.data.authorization_url);
+              //     } else {
+              //       toast.error("Error");
+              //       setLoading(false);
+              //     }
+              //   })
+              //   .finally(() => {
+              //     setLoading(false);
+              //   });
             }}
           >
             {loading ? (

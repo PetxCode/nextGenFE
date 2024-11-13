@@ -58,8 +58,6 @@ export const MainQuestion = () => {
   let state3Data = [...allUsers];
   let state4Data = [...allUsers];
 
-  console.log(allUsers);
-
   // let sortResult = [...allUsers];
 
   // const readSort = sortResult
@@ -1099,7 +1097,7 @@ export const MainQuestion = () => {
                 </div>
 
                 <div className="mt-10">
-                  {/* <div className="relative flex flex-wrap gap-2">
+                  <div className="relative flex flex-wrap gap-2">
                     {state4Data
                       .sort((a: any, b: any) => {
                         return a.stage4Score - b.stage4Score;
@@ -1128,7 +1126,7 @@ export const MainQuestion = () => {
                           </p>
                         </div>
                       ))}
-                  </div> */}
+                  </div>
 
                   {/* */}
                 </div>

@@ -232,7 +232,7 @@ export const uploadMultiple = (data: any) => {
   }
 };
 
-export const makeDonation = (data: any) => {
+export const makeDonation = (data:any) => {
   try {
     return axios
       .post(`${url}/api/donate`, data)
