@@ -1,3 +1,5 @@
+import DonateScreen from "@/global/DonateScreen";
+import ThankYouScreen from "@/global/ThanksScreen";
 import AuthLayout from "@/layout/AuthLayout";
 import Layout from "@/layout/Layout";
 import LoginScreen from "@/pages/auth/Login";
@@ -25,6 +27,14 @@ export const router = createBrowserRouter([
         element: <Gallary />,
       },
     ],
+  },
+  {
+    path: "/donate",
+    element: <DonateScreen />,
+  },
+  {
+    path: "/thank-you/successful-payment/",
+    element: <ThankYouScreen />,
   },
   {
     path: "/auth",

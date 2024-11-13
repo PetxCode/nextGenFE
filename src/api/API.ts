@@ -231,3 +231,29 @@ export const uploadMultiple = (data: any) => {
     console.log(error);
   }
 };
+
+export const makeDonation = (data: any) => {
+  try {
+    return axios
+      .post(`${url}/api/donate`, data)
+
+      .then((res) => {
+        return res?.data;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const verifyDonation = (ref: any) => {
+  try {
+    return axios
+      .get(`${url}/api/verify-donation/${ref}`)
+
+      .then((res) => {
+        return res?.data;
+      });
+  } catch (error) {
+    console.log(error);
+  }
+};
