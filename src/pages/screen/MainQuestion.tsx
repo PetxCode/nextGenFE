@@ -955,11 +955,11 @@ export const MainQuestion = () => {
             </div>
           </div>
         ) : (
-          <div className=" w-full">
+          <div>
             {!user && (
               <div className="w-full flex flex-col">
                 {myData[presentStage]?.id === "stage1" ? (
-                  <div className="w-full">
+                  <div>
                     <div className="min-h-[600px] flex gap-2  w-full bg-slate-50 p-2 border ">
                       <MyChart
                         data={allUsers}
