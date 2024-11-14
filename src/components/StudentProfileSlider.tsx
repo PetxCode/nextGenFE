@@ -66,7 +66,7 @@ const StudentProfileSlider = () => {
         style={{ x: xMovement }}
         className="flex w-max gap-4"
       >
-        {data?.map((el: any, i: number) => (
+        {[...data, ...data, ...data]?.map((el: any, i: number) => (
           <Card key={i} el={el} />
         ))}
       </motion.div>

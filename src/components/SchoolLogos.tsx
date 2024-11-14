@@ -67,7 +67,11 @@ const SchoolLogos = () => {
         style={{ x: xMovement }}
         className="flex w-max gap-4"
       >
-        {Object.keys(schools).map((el: any, i: number) => (
+        {[
+          ...Object.keys(schools),
+          ...Object.keys(schools),
+          ...Object.keys(schools),
+        ].map((el: any, i: number) => (
           <Card key={i} el={el} />
         ))}
       </motion.div>

@@ -22,7 +22,7 @@ export const MainQuestion = () => {
 
   const [myPick, setMyPick] = useState<any | null>(null);
   const [myPickOption, setMyPickOption] = useState<any | null>(null);
-  const [timing, setTiming] = useState<number>(20);
+  const [timing, setTiming] = useState<number>(30);
 
   const [allUsers, setAllUsers] = useState<Array<{}>>([]);
 
@@ -89,10 +89,28 @@ export const MainQuestion = () => {
     };
   }, []);
 
+  const calculatePoints = (el: any, timing: number) => {
+    if (el.correct) {
+      const timeRemaining = timing;
+
+      if (timeRemaining >= 10 && timeRemaining <= 19) {
+        return 6;
+      } else if (timeRemaining >= 5 && timeRemaining <= 9) {
+        return 3;
+      } else if (timeRemaining <= 4) {
+        return 1;
+      } else {
+        return 10;
+      }
+    } else {
+      return 0;
+    }
+  };
+
   return (
     <div className="relative flex justify-center mt-10 items-center ">
       <div className="flex flex-col lg:flex-row gap-4 justify-between min-h-[80] w-[80%]">
-        <div className="min-w-[200px] rounded-md gap-2 lg:h-[200px] grid grid-cols-2 lg:grid-cols-1 items-center justify-center flex-wrap">
+        <div className="min-w-[200px] rounded-md gap-2 lg:h-[200px] grid grid-cols-2 lg:grid-cols-1 items-center justify-center flex-wrap  ">
           {user?.status} || {user?.lastName}
           {Object?.keys(data)?.map((el: string, i: number) => (
             <button
@@ -422,7 +440,6 @@ export const MainQuestion = () => {
                     }
                     `}
                         onClick={() => {
-                          console.log(el.id);
                           if (user.status === "student") {
                             setMyPickOption(el.id);
                             setMyPick({
@@ -431,16 +448,8 @@ export const MainQuestion = () => {
                                 "LTS"
                               ),
 
-                              pickAt: `${20 - timing} secs`,
-                              point: el.correct
-                                ? 20 - timing <= 8
-                                  ? 10
-                                  : 20 - timing >= 9 && 20 - timing <= 12
-                                  ? 6
-                                  : 20 - timing >= 13 && 20 - timing <= 15
-                                  ? 3
-                                  : 1
-                                : 0,
+                              pickAt: `${30 - timing} secs`,
+                              point: calculatePoints(el, timing),
                             });
 
                             myData[presentStage]?.id === "stage1"
@@ -457,16 +466,8 @@ export const MainQuestion = () => {
                                   time: moment(new Date().getTime()).format(
                                     "LTS"
                                   ),
-                                  pickedAt: `${20 - timing} secs`,
-                                  point: el.correct
-                                    ? 20 - timing <= 8
-                                      ? 10
-                                      : 20 - timing >= 9 && 20 - timing <= 12
-                                      ? 6
-                                      : 20 - timing >= 13 && 20 - timing <= 15
-                                      ? 3
-                                      : 1
-                                    : 0,
+                                  pickedAt: `${30 - timing} secs`,
+                                  point: calculatePoints(el, timing),
                                 })
                               : myData[presentStage]?.id === "stage2"
                               ? stageTwoEndPoint(user?._id, {
@@ -483,18 +484,8 @@ export const MainQuestion = () => {
                                     "LTS"
                                   ),
                                   pickedAt: `${20 - timing} secs`,
-                                  point: el.correct
-                                    ? 20 - timing <= 8
-                                      ? 10
-                                      : 20 - timing >= 9 && 20 - timing <= 12
-                                      ? 6
-                                      : 20 - timing >= 13 && 20 - timing <= 15
-                                      ? 3
-                                      : 1
-                                    : 0,
-                                })?.then((res) => {
-                                  console.log("first point picked", res);
-                                })
+                                  point: calculatePoints(el, timing),
+                                })?.then(() => {})
                               : myData[presentStage]?.id === "stage3"
                               ? stageThreeEndPoint(user?._id, {
                                   questionID:
@@ -510,18 +501,8 @@ export const MainQuestion = () => {
                                     "LTS"
                                   ),
                                   pickedAt: `${20 - timing} secs`,
-                                  point: el.correct
-                                    ? 20 - timing <= 8
-                                      ? 10
-                                      : 20 - timing >= 9 && 20 - timing <= 12
-                                      ? 6
-                                      : 20 - timing >= 13 && 20 - timing <= 15
-                                      ? 3
-                                      : 1
-                                    : 0,
-                                })?.then((res) => {
-                                  console.log("picked", res);
-                                })
+                                  point: calculatePoints(el, timing),
+                                })?.then(() => {})
                               : myData[presentStage]?.id === "stage4"
                               ? stageFourEndPoint(user?._id, {
                                   questionID:
@@ -537,15 +518,7 @@ export const MainQuestion = () => {
                                     "LTS"
                                   ),
                                   pickedAt: `${20 - timing} secs`,
-                                  point: el.correct
-                                    ? 20 - timing <= 8
-                                      ? 10
-                                      : 20 - timing >= 9 && 20 - timing <= 12
-                                      ? 6
-                                      : 20 - timing >= 13 && 20 - timing <= 15
-                                      ? 3
-                                      : 1
-                                    : 0,
+                                  point: calculatePoints(el, timing),
                                 })
                               : null;
                           }
@@ -883,103 +856,163 @@ export const MainQuestion = () => {
               Students present Performance
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 mt-2 gap-2 ">
+            <div
+              className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 mt-2 gap-2
+            "
+            >
               {allUsers?.map((el: any) => (
-                <div className="border  h-[120px] p-2 flex gap-2">
-                  <div className="w-12 border h-12 rounded-full overflow-hidden">
-                    <img
-                      src={el?.avatar}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="text-[12px] h-full flex flex-col">
-                    <p>{el?.lastName}</p>
-                    <p>Total Points</p>
+                <div className=" ">
+                  {el.status !== "admin" && (
+                    <div className="border h-[120px] p-2 flex gap-2">
+                      <div className="w-12 border h-12 rounded-full overflow-hidden">
+                        <img
+                          src={el?.avatar}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="text-[12px] h-full flex flex-col">
+                        <p>{el?.lastName}</p>
+                        <p>Total Points</p>
 
-                    <div className="flex gap-2">
-                      <p>stage 1: {el?.stage1Score}</p>
-                      <p>stage 2: {el?.stage2Score}</p>
+                        <div className="flex gap-2">
+                          <p>stage 1: {el?.stage1Score}</p>
+                          <p>stage 2: {el?.stage2Score}</p>
+                        </div>
+
+                        <div className="flex gap-2">
+                          <p>stage 3: {el?.stage3Score}</p>
+                          <p>stage 4: {el?.stage4Score}</p>
+                        </div>
+
+                        <div className="flex-1" />
+                        <p>
+                          Total Score:{" "}
+                          <span>
+                            {el?.stage1Score +
+                              el?.stage2Score +
+                              el?.stage3Score +
+                              el?.stage4Score}
+                          </span>
+                        </p>
+                      </div>
                     </div>
-
-                    <div className="flex gap-2">
-                      <p>stage 3: {el?.stage3Score}</p>
-                      <p>stage 4: {el?.stage4Score}</p>
-                    </div>
-
-                    <div className="flex-1" />
-                    <p>
-                      Total Score:{" "}
-                      <span>
-                        {el?.stage1Score +
-                          el?.stage2Score +
-                          el?.stage3Score +
-                          el?.stage4Score}
-                      </span>
-                    </p>
-                  </div>
+                  )}
                 </div>
               ))}
             </div>
           </div>
         )}
 
-        {!user && (
-          <div className="w-full flex flex-col">
-            {myData[presentStage]?.id === "stage1" ? (
-              <div>
-                <div className="min-h-[600px] flex gap-2  w-full bg-slate-50 p-2 border ">
-                  <MyChart
-                    data={allUsers}
-                    title="Stage One"
-                    stage="stage1Score"
-                  />
-                </div>
+        {!user && presentStage === "" ? (
+          <div className="flex-1 h-[80vh] p-2 border overflow-auto">
+            <div className="uppercase text-[12px]">
+              This is for Break Sessions
+            </div>
+            <div className="uppercase mt-16 italic font-semibold text-[20px]">
+              Students present Performance
+            </div>
 
-                <div className="mt-10">
-                  <div className="relative flex flex-wrap gap-2">
-                    {state1Data
-                      .sort((a: any, b: any) => {
-                        return a.stage1Score - b.stage1Score;
-                      })
-                      ?.map((props: any) => (
-                        <div
-                          key={props?._id}
-                          className="p-2 border w-[180px] min-h-[100px]"
-                        >
-                          <div className="flex gap-2">
-                            <img
-                              src={props?.avatar}
-                              className="w-14 h-14 border-black border rounded-full object-cover"
-                            />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 mt-2 gap-2 ">
+              {allUsers?.map((el: any) => (
+                <div>
+                  {el.status !== "admin" && (
+                    <div className="border  h-[120px] p-2 flex gap-2">
+                      <div className="w-12 border h-12 rounded-full overflow-hidden">
+                        <img
+                          src={el?.avatar}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="text-[12px] h-full flex flex-col">
+                        <p>{el?.lastName}</p>
+                        <p>Total Points</p>
 
-                            <div className="text-[12px]">
-                              <p>School: {props?.schoolName}</p>
-                              <p>Points: {props?.stage1Score}</p>
-                            </div>
-                          </div>
-                          <p className="mt-3 text-[14px]">
-                            Name:{" "}
-                            <span className="font-semibold">
-                              {props?.firstName}
-                            </span>
-                          </p>
+                        <div className="flex gap-2">
+                          <p>stage 1: {el?.stage1Score}</p>
+                          <p>stage 2: {el?.stage2Score}</p>
                         </div>
-                      ))}
-                  </div>
 
-                  {/* */}
+                        <div className="flex gap-2">
+                          <p>stage 3: {el?.stage3Score}</p>
+                          <p>stage 4: {el?.stage4Score}</p>
+                        </div>
+
+                        <div className="flex-1" />
+                        <p>
+                          Total Score:{" "}
+                          <span>
+                            {el?.stage1Score +
+                              el?.stage2Score +
+                              el?.stage3Score +
+                              el?.stage4Score}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            ) : myData[presentStage]?.id === "stage2" ? (
-              <div>
-                <div className="min-h-[600px] flex gap-2  w-full bg-slate-50 p-2 border ">
-                  <MyChart
-                    data={allUsers}
-                    title="Stage One"
-                    stage="stage1Score"
-                    stage2="stage2Score"
-                  />
-                  {/* {allUsers?.map((props: any) => (
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className=" w-full">
+            {!user && (
+              <div className="w-full flex flex-col">
+                {myData[presentStage]?.id === "stage1" ? (
+                  <div className="w-full">
+                    <div className="min-h-[600px] flex gap-2  w-full bg-slate-50 p-2 border ">
+                      <MyChart
+                        data={allUsers}
+                        title="Stage One"
+                        stage="stage1Score"
+                      />
+                    </div>
+
+                    <div className="mt-10">
+                      <div className="relative flex flex-wrap gap-2">
+                        {state1Data
+                          .sort((a: any, b: any) => {
+                            return a.stage1Score - b.stage1Score;
+                          })
+                          ?.map((props: any) => (
+                            <div
+                              key={props?._id}
+                              className="p-2 border w-[180px] min-h-[100px]"
+                            >
+                              <div className="flex gap-2">
+                                <img
+                                  src={props?.avatar}
+                                  className="w-14 h-14 border-black border rounded-full object-cover"
+                                />
+
+                                <div className="text-[12px]">
+                                  <p>School: {props?.schoolName}</p>
+                                  <p>Points: {props?.stage1Score}</p>
+                                </div>
+                              </div>
+                              <p className="mt-3 text-[14px]">
+                                Name:{" "}
+                                <span className="font-semibold">
+                                  {props?.firstName}
+                                </span>
+                              </p>
+                            </div>
+                          ))}
+                      </div>
+
+                      {/* */}
+                    </div>
+                  </div>
+                ) : myData[presentStage]?.id === "stage2" ? (
+                  <div>
+                    <div className="min-h-[600px] flex gap-2  w-full bg-slate-50 p-2 border ">
+                      <MyChart
+                        data={allUsers}
+                        title="Stage One"
+                        stage="stage1Score"
+                        stage2="stage2Score"
+                      />
+                      {/* {allUsers?.map((props: any) => (
                     <div className="h-full flex flex-col justify-end items-center  w-16 duration-300 transition-all overflow-hidden">
                       <div
                         className={` w-2 bg-blue-950 mb-2`}
@@ -995,56 +1028,56 @@ export const MainQuestion = () => {
                       </div>
                     </div>
                   ))} */}
-                </div>
+                    </div>
 
-                <div className="mt-10">
-                  <div className="relative flex flex-wrap gap-2">
-                    {state2Data
-                      .sort((a: any, b: any) => {
-                        return a.stage2Score - b.stage2Score;
-                      })
-                      ?.map((props: any) => {
-                        return (
-                          <div
-                            key={props?._id}
-                            className="p-2 border w-[180px] min-h-[100px]"
-                          >
-                            <div className="flex gap-2">
-                              <img
-                                src={props?.avatar}
-                                className="w-14 h-14 border-black border rounded-full object-cover"
-                              />
+                    <div className="mt-10">
+                      <div className="relative flex flex-wrap gap-2">
+                        {state2Data
+                          .sort((a: any, b: any) => {
+                            return a.stage2Score - b.stage2Score;
+                          })
+                          ?.map((props: any) => {
+                            return (
+                              <div
+                                key={props?._id}
+                                className="p-2 border w-[180px] min-h-[100px]"
+                              >
+                                <div className="flex gap-2">
+                                  <img
+                                    src={props?.avatar}
+                                    className="w-14 h-14 border-black border rounded-full object-cover"
+                                  />
 
-                              <div className="text-[12px]">
-                                <p>School: {props?.schoolName}</p>
-                                <p>Points: {props?.stage2Score}</p>
+                                  <div className="text-[12px]">
+                                    <p>School: {props?.schoolName}</p>
+                                    <p>Points: {props?.stage2Score}</p>
+                                  </div>
+                                </div>
+                                <p className="mt-3 text-[14px]">
+                                  Name:{" "}
+                                  <span className="font-semibold">
+                                    {props?.firstName}
+                                  </span>
+                                </p>
                               </div>
-                            </div>
-                            <p className="mt-3 text-[14px]">
-                              Name:{" "}
-                              <span className="font-semibold">
-                                {props?.firstName}
-                              </span>
-                            </p>
-                          </div>
-                        );
-                      })}
-                  </div>
+                            );
+                          })}
+                      </div>
 
-                  {/* */}
-                </div>
-              </div>
-            ) : myData[presentStage]?.id === "stage3" ? (
-              <div>
-                <div className="min-h-[600px] flex gap-2  w-full bg-slate-50 p-2 border ">
-                  <MyChart
-                    data={allUsers}
-                    title="Stage Three"
-                    stage="stage1Score"
-                    stage2="stage2Score"
-                    stage3="stage3Score"
-                  />
-                  {/* {allUsers?.map((props: any) => (
+                      {/* */}
+                    </div>
+                  </div>
+                ) : myData[presentStage]?.id === "stage3" ? (
+                  <div>
+                    <div className="min-h-[600px] flex gap-2  w-full bg-slate-50 p-2 border ">
+                      <MyChart
+                        data={allUsers}
+                        title="Stage Three"
+                        stage="stage1Score"
+                        stage2="stage2Score"
+                        stage3="stage3Score"
+                      />
+                      {/* {allUsers?.map((props: any) => (
                     <div className="h-full flex flex-col justify-end items-center  w-16 duration-300 transition-all overflow-hidden">
                       <div
                         className={` w-2 bg-blue-950 mb-2`}
@@ -1060,109 +1093,94 @@ export const MainQuestion = () => {
                       </div>
                     </div>
                   ))} */}
-                </div>
-
-                <div className="mt-10">
-                  <div className="relative flex flex-wrap gap-2">
-                    {state3Data
-                      .sort((a: any, b: any) => {
-                        return a.stage3Score - b.stage3Score;
-                      })
-                      ?.map((props: any) => (
-                        <div
-                          key={props?._id}
-                          className="p-2 border w-[180px] min-h-[100px]"
-                        >
-                          <div className="flex gap-2">
-                            <img
-                              src={props?.avatar}
-                              className="w-14 h-14 border-black border rounded-full object-cover"
-                            />
-
-                            <div className="text-[12px]">
-                              <p>School: {props?.schoolName}</p>
-                              <p>Points: {props?.stage3Score}</p>
-                            </div>
-                          </div>
-                          <p className="mt-3 text-[14px]">
-                            Name:{" "}
-                            <span className="font-semibold">
-                              {props?.firstName}
-                            </span>
-                          </p>
-                        </div>
-                      ))}
-                  </div>
-
-                  {/* */}
-                </div>
-              </div>
-            ) : myData[presentStage]?.id === "stage4" ? (
-              <div>
-                <div className="min-h-[600px] flex gap-2  w-full bg-slate-50 p-2 border ">
-                  <MyChart
-                    data={allUsers}
-                    title="Stage Four"
-                    stage="stage1Score"
-                    stage2="stage2Score"
-                    stage3="stage3Score"
-                    stage4="stage4Score"
-                  />
-
-                  {/* {allUsers?.map((props: any) => (
-                    <div className="h-full flex flex-col justify-end items-center  w-16 duration-300 transition-all overflow-hidden">
-                      <div
-                        className={` w-2 bg-blue-950 mb-2`}
-                        style={{
-                          height: `${(props?.stage4Score / 200) * 450}px`,
-                        }}
-                      />
-                      <div className="w-10 h-10 rounded-full bg-blue-950 overflow-hidden">
-                        <img
-                          src={props?.avatar}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
                     </div>
-                  ))} */}
-                </div>
 
-                <div className="mt-10">
-                  <div className="relative flex flex-wrap gap-2">
-                    {state4Data
-                      .sort((a: any, b: any) => {
-                        return a.stage4Score - b.stage4Score;
-                      })
-                      ?.map((props: any) => (
-                        <div
-                          key={props?._id}
-                          className="p-2 border w-[180px] min-h-[100px]"
-                        >
-                          <div className="flex gap-2">
-                            <img
-                              src={props?.avatar}
-                              className="w-14 h-14 border-black border rounded-full object-cover"
-                            />
+                    <div className="mt-10">
+                      <div className="relative flex flex-wrap gap-2">
+                        {state3Data
+                          .sort((a: any, b: any) => {
+                            return a.stage3Score - b.stage3Score;
+                          })
+                          ?.map((props: any) => (
+                            <div
+                              key={props?._id}
+                              className="p-2 border w-[180px] min-h-[100px]"
+                            >
+                              <div className="flex gap-2">
+                                <img
+                                  src={props?.avatar}
+                                  className="w-14 h-14 border-black border rounded-full object-cover"
+                                />
 
-                            <div className="text-[12px]">
-                              <p>School: {props?.schoolName}</p>
-                              <p>Points: {props?.stage4Score}</p>
+                                <div className="text-[12px]">
+                                  <p>School: {props?.schoolName}</p>
+                                  <p>Points: {props?.stage3Score}</p>
+                                </div>
+                              </div>
+                              <p className="mt-3 text-[14px]">
+                                Name:{" "}
+                                <span className="font-semibold">
+                                  {props?.firstName}
+                                </span>
+                              </p>
                             </div>
-                          </div>
-                          <p className="mt-3 text-[14px]">
-                            Name:{" "}
-                            <span className="font-semibold">
-                              {props?.firstName}
-                            </span>
-                          </p>
-                        </div>
-                      ))}
-                  </div>
+                          ))}
+                      </div>
 
-                  {/* */}
-                </div>
+                      {/* */}
+                    </div>
+                  </div>
+                ) : myData[presentStage]?.id === "stage4" ? (
+                  <div>
+                    <div className="min-h-[600px] flex gap-2  w-full bg-slate-50 p-2 border ">
+                      <MyChart
+                        data={allUsers}
+                        title="Stage Four"
+                        stage="stage1Score"
+                        stage2="stage2Score"
+                        stage3="stage3Score"
+                        stage4="stage4Score"
+                      />
+                    </div>
+
+                    <div className="mt-10">
+                      <div className="relative flex flex-wrap gap-2">
+                        {state4Data
+                          .sort((a: any, b: any) => {
+                            return a.stage4Score - b.stage4Score;
+                          })
+                          ?.map((props: any) => (
+                            <div
+                              key={props?._id}
+                              className="p-2 border w-[180px] min-h-[100px]"
+                            >
+                              <div className="flex gap-2">
+                                <img
+                                  src={props?.avatar}
+                                  className="w-14 h-14 border-black border rounded-full object-cover"
+                                />
+
+                                <div className="text-[12px]">
+                                  <p>School: {props?.schoolName}</p>
+                                  <p>Points: {props?.stage4Score}</p>
+                                </div>
+                              </div>
+                              <p className="mt-3 text-[14px]">
+                                Name:{" "}
+                                <span className="font-semibold">
+                                  {props?.firstName}
+                                </span>
+                              </p>
+                            </div>
+                          ))}
+                      </div>
+
+                      {/* */}
+                    </div>
+                  </div>
+                ) : null}
               </div>
-            ) : null}
+            )}
           </div>
         )}
       </div>
