@@ -41,7 +41,7 @@ export const MainQuestion = () => {
   useEffect(() => {
     socket?.emit("questionNumber", questionNumber);
     socket?.on("questionNumber", ({ question, reset, numb }) => {
-      if (questionNumber >= 21) {
+      if (questionNumber > 20) {
         setQuestionNumber(0);
       } else {
         setQuestionNumber(question);
