@@ -41,11 +41,12 @@ export const MainQuestion = () => {
   useEffect(() => {
     socket?.emit("questionNumber", questionNumber);
     socket?.on("questionNumber", ({ question, reset, numb }) => {
-      if (questionNumber > 20) {
-        setQuestionNumber(0);
-      } else {
-        setQuestionNumber(question);
-      }
+      // if (questionNumber > 21) {
+      //   setQuestionNumber(0);
+      // } else {
+      //   setQuestionNumber(question);
+      // }
+      setQuestionNumber(question % 21);
 
       setTiming(numb);
       setMyPickOption(reset);
@@ -111,7 +112,15 @@ export const MainQuestion = () => {
     <div className="relative flex justify-center mt-10 items-center ">
       <div className="flex flex-col lg:flex-row gap-4 justify-between min-h-[80] w-[80%]">
         <div className="min-w-[200px] rounded-md gap-2 lg:h-[200px] grid grid-cols-2 lg:grid-cols-1 items-center justify-center flex-wrap  ">
-          {user?.status} || {user?.lastName}
+          <span className="flex font-medium text-[12px] uppercase">
+            {user?.status === "student"
+              ? "participant"
+              : user?.status === "admin"
+              ? "admin"
+              : "observant"}{" "}
+            || {user?.lastName}
+          </span>
+
           {Object?.keys(data)?.map((el: string, i: number) => (
             <button
               key={i}
@@ -120,6 +129,7 @@ export const MainQuestion = () => {
               } rounded-md my-2 `}
               onClick={() => {
                 user.status === "admin" && setPresentStage(el);
+                // user.status === "admin" && setQuestionNumber(0);
               }}
             >
               {el}
@@ -397,7 +407,7 @@ export const MainQuestion = () => {
                   className="text-center my-4 mb-10 font-semibold text-[20px] px-10 py-3 border rounded-md bg-neutral-900 text-white cursor-pointer"
                   onClick={() => {
                     setQuestionNumber((el) => el + 1);
-                    setTiming(20);
+                    setTiming(30);
                   }}
                 >
                   Next Question
