@@ -57,7 +57,7 @@ export const router = createBrowserRouter([
       },
       {
         index: true,
-        path: "participate",
+        path: "participate-now",
         element: <MainQuestion />,
       },
       {
