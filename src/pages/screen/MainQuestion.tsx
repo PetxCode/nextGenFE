@@ -129,7 +129,6 @@ export const MainQuestion = () => {
               } rounded-md my-2 `}
               onClick={() => {
                 user.status === "admin" && setPresentStage(el);
-                // user.status === "admin" && setQuestionNumber(0);
               }}
             >
               {el}
