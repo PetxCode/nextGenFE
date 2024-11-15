@@ -22,7 +22,7 @@ const LoginScreen = () => {
         if (res.status === 201) {
           localStorage.setItem("userData", JSON.stringify(res.data));
 
-          navigate("/auth/participate");
+          navigate("/auth/participate-now");
         } else {
           alert("something is wrong");
         }
