@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import data from "./questionData/data.json";
 import moment from "moment";
+import useSocket from "@/hooks/useSocket";
 import { ContextProvider } from "@/global/GlobalProvider";
 
 import {
@@ -11,22 +12,17 @@ import {
   stageTwoEndPoint,
 } from "@/api/API";
 import { MyChart } from "./ChartScreen";
-import { useReadAllQuestion } from "@/hooks/useGallary";
-import { moveToNextQuestion } from "@/api/questionAPI";
-import { mutate } from "swr";
 
 export const MainQuestion = () => {
   const { user }: any = useContext(ContextProvider);
-  const { data: allQuestionData } = useReadAllQuestion();
-
+  const socket = useSocket();
   const [questionNumber, setQuestionNumber] = useState<number>(0);
   const [presentStage, setPresentStage] = useState<string>("");
+  // const [presentStageData, setPresentStageData] = useState<string>("");
 
   const [myPick, setMyPick] = useState<any | null>(null);
   const [myPickOption, setMyPickOption] = useState<any | null>(null);
   const [timing, setTiming] = useState<number>(30);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [loadingTitle, setLoadingTitle] = useState<boolean>(false);
 
   const [allUsers, setAllUsers] = useState<Array<{}>>([]);
 
@@ -43,13 +39,24 @@ export const MainQuestion = () => {
   }, [timing]);
 
   useEffect(() => {
-    setTiming(allQuestionData?.data[0]?.specific?.timer);
-    setMyPickOption(allQuestionData?.data[0]?.specific?.picked);
+    socket?.emit("questionNumber", questionNumber);
+    socket?.on("questionNumber", ({ question, reset, numb }) => {
+      // if (questionNumber > 21) {
+      //   setQuestionNumber(0);
+      // } else {
+      //   setQuestionNumber(question);
+      // }
+      setQuestionNumber(question % 21);
 
-    if (allQuestionData?.data[0]?.specific?.title) {
-      setLoadingTitle(false);
-    }
-  }, [allQuestionData?.data[0]?.specific?.id]);
+      setTiming(numb);
+      setMyPickOption(reset);
+    });
+
+    socket?.emit("presentStage", presentStage);
+    socket?.on("presentStage", (read) => {
+      setPresentStage(read);
+    });
+  }, [socket, presentStage, questionNumber]);
 
   const myData: any = { ...data };
 
@@ -58,8 +65,15 @@ export const MainQuestion = () => {
   let state3Data = [...allUsers];
   let state4Data = [...allUsers];
 
-  // console.log(allQuestionData?.data[0]?.specific?.timer);
-  // setTiming(allQuestionData?.data[0]?.specific?.timer);
+  // let sortResult = [...allUsers];
+
+  // const readSort = sortResult
+  //   .map((el: any) => {
+  //     return el.stage2Result[el?.stage1Result?.length - 1];
+  //   })
+  //   .sort((a: any, b: any) => {
+  //     return new Date(`${b.time}`).getTime() - new Date(`${a.time}`).getTime();
+  //   });
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -94,37 +108,10 @@ export const MainQuestion = () => {
     }
   };
 
-  const moveToNext = (stage: string, question: number) => {
-    setLoading(true);
-    setLoadingTitle(true);
-    let x =
-      (question %
-        allQuestionData.data[0].question[`${stage.toLowerCase()}`]?.data
-          ?.length) +
-      1;
-
-    setQuestionNumber((el) => el + 1);
-
-    setTiming(allQuestionData?.data[0]?.specific?.timer);
-
-    moveToNextQuestion(user?._id, allQuestionData.data[0]?._id, {
-      stage: stage.toLowerCase(),
-      questionID: x,
-    })
-      ?.then(() => {
-        mutate(`api/read-question/`);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    setTiming(30);
-  };
-
   return (
     <div className="relative flex justify-center mt-10 items-center ">
       <div className="flex flex-col lg:flex-row gap-4 justify-between min-h-[80] w-[80%]">
         <div className="min-w-[200px] rounded-md gap-2 lg:h-[200px] grid grid-cols-2 lg:grid-cols-1 items-center justify-center flex-wrap  ">
-          {allQuestionData?.data[0]?.specific?.stage}
           <span className="flex font-medium text-[12px] uppercase">
             {user?.status === "student"
               ? "participant"
@@ -138,15 +125,10 @@ export const MainQuestion = () => {
             <button
               key={i}
               className={` border px-10 py-3 ${
-                allQuestionData?.data[0]?.specific?.stage === el.toLowerCase()
-                  ? "bg-blue-950 text-white"
-                  : "bg-slate-50"
+                presentStage === el ? "bg-blue-950 text-white" : "bg-slate-50"
               } rounded-md my-2 `}
               onClick={() => {
-                // user.status === "admin" &&
-                setPresentStage(el);
-                setQuestionNumber(-1);
-                moveToNext(presentStage.toLowerCase(), questionNumber);
+                user.status === "admin" && setPresentStage(el);
               }}
             >
               {el}
@@ -415,6 +397,7 @@ export const MainQuestion = () => {
             </button>
           )}
         </div>
+
         {user && presentStage && (
           <div className="flex-1  rounded-md grid grid-cols-1 md:grid-cols-5 gap-3 ">
             <div className="col-span-1 md:col-span-3 border p-4">
@@ -422,16 +405,19 @@ export const MainQuestion = () => {
                 <h1
                   className="text-center my-4 mb-10 font-semibold text-[20px] px-10 py-3 border rounded-md bg-neutral-900 text-white cursor-pointer"
                   onClick={() => {
-                    moveToNext(presentStage, questionNumber);
+                    setQuestionNumber((el) => el + 1);
+                    setTiming(30);
                   }}
                 >
-                  {loading ? "Loading..." : "Next Question"}
+                  Next Question
                 </h1>
               )}
+
               <p className="text-center">{myData[presentStage]?.id}</p>
               <h1 className="text-center mb-4 font-semibold text-[20px]">
-                Question : {allQuestionData?.data[0]?.specific?.id}
+                Question : {myData[presentStage]?.data[questionNumber]?.id}
               </h1>
+
               <div className="flex justify-center">
                 <div
                   className={`text-[25px] h-[100px] w-[150px] backdrop*: rounded-md  top-[-60px] bg-slate-100 flex justify-center items-center shadow-inner border mb-10 ${
@@ -442,9 +428,7 @@ export const MainQuestion = () => {
                 </div>
               </div>
               <p className="text-[25px] mt-2">
-                {loadingTitle
-                  ? "Loading..."
-                  : allQuestionData?.data[0]?.specific?.title}
+                {myData[presentStage]?.data[questionNumber]?.title}
               </p>
               <hr className="mb-5 mt-5" />
               {timing === 0 ? (
@@ -453,7 +437,7 @@ export const MainQuestion = () => {
                 </div>
               ) : (
                 <div className="gap-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
-                  {allQuestionData?.data[0]?.specific?.options?.map(
+                  {myData[presentStage]?.data[questionNumber]?.options.map(
                     (el: any, i: number) => (
                       <div
                         key={i}
@@ -871,6 +855,7 @@ export const MainQuestion = () => {
             </div>
           </div>
         )}
+
         {user && presentStage === "" && (
           <div className="flex-1 h-[80vh] p-2 border overflow-auto">
             <div className="uppercase text-[12px]">
@@ -926,6 +911,7 @@ export const MainQuestion = () => {
             </div>
           </div>
         )}
+
         {!user && presentStage === "" ? (
           <div className="flex-1 h-[80vh] p-2 border overflow-auto">
             <div className="uppercase text-[12px]">
@@ -1210,27 +1196,3 @@ export const MainQuestion = () => {
     </div>
   );
 };
-
-// setLoading(true);
-// setLoadingTitle(true);
-// let x =
-//   (questionNumber %
-//     allQuestionData.data[0].question[`${presentStage.toLowerCase()}`]?.data
-//       ?.length) +
-//   1;
-
-// setQuestionNumber((el) => el + 1);
-
-// setTiming(allQuestionData?.data[0]?.specific?.timer);
-
-// moveToNextQuestion(user?._id, allQuestionData.data[0]?._id, {
-//   stage: presentStage.toLowerCase(),
-//   questionID: x,
-// })
-//   ?.then(() => {
-//     mutate(`api/read-question/`);
-//   })
-//   .finally(() => {
-//     setLoading(false);
-//   });
-// setTiming(30);

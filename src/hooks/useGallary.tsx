@@ -1,4 +1,5 @@
 import { allAccount, viewAllGallary } from "@/api/API";
+import { readAllQuestion } from "@/api/questionAPI";
 import useSWR from "swr";
 
 export const useGallary = () => {
@@ -16,5 +17,21 @@ export const useUserAccount = () => {
       return res;
     });
   });
+  return { data, isLoading };
+};
+
+export const useReadAllQuestion = () => {
+  const { data, isLoading } = useSWR(
+    `api/read-question/`,
+    () => {
+      return readAllQuestion()?.then((res) => {
+        return res;
+      });
+    },
+    {
+      revalidateOnReconnect: true,
+      refreshInterval: 100,
+    }
+  );
   return { data, isLoading };
 };
