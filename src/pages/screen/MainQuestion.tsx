@@ -143,10 +143,10 @@ export const MainQuestion = () => {
                   : "bg-slate-50"
               } rounded-md my-2 `}
               onClick={() => {
-                // user.status === "admin" &&
-                setPresentStage(el);
-                setQuestionNumber(-1);
-                moveToNext(presentStage.toLowerCase(), questionNumber);
+                user.status === "admin" && setPresentStage(el);
+                user.status === "admin" && setQuestionNumber(-1);
+                user.status === "admin" &&
+                  moveToNext(presentStage.toLowerCase(), questionNumber);
               }}
             >
               {el}
